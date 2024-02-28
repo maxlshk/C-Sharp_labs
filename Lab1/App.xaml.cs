@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Lab1
+namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -10,5 +8,4 @@ namespace Lab1
     public partial class App : Application
     {
     }
-
 }
