@@ -46,17 +46,37 @@ namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.ViewModels
 
         private void Submit()
         {
-            MessageBox.Show($"Submit successful for date {_user.Birthday}");
-        }
+            if (IsLegal())
+            {
 
-        //private void SignUp()
-        //{
-        //    MessageBox.Show($"User with name {_user.Login} was created");
-        //}
+                if (IsBirthday())
+                {
+                    MessageBox.Show($"Happy birthday, one year closer to retirement 🥳");
+                }
+                else
+                {
+                    MessageBox.Show($"Submit successful for date {_user.Birthday}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid age");
+            }
+        }
 
         private bool CanExecute(object obj)
         {
             return _user.Birthday > DateTime.MinValue;
+        }
+
+        private bool IsBirthday()
+        {
+            return _user.Birthday.Day == DateTime.Now.Day && _user.Birthday.Month == DateTime.Now.Month;
+        }
+
+        private bool IsLegal()
+        {
+            return _user.Age > 0 && _user.Age < 135;
         }
     }
 }
