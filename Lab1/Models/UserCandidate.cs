@@ -82,7 +82,7 @@
         {
             get
             {
-                return (ChineseZodiacSigns)(_birthday.Year - 4) % 12;
+                return (ChineseZodiacSigns)((_birthday.Year - 4) % 12);
             }
         }
         

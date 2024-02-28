@@ -1,28 +1,41 @@
 ﻿using System;
 using System.Windows;
+using System.ComponentModel;
 using KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.Models;
 using KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.Tools;
 
 namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.ViewModels
 {
-    class SignInViewModel
+    class SignInViewModel : INotifyPropertyChanged
     {
         #region Fields
         private UserCandidate _user = new UserCandidate();
         private RelayCommand<object> _submitCommand;
         private RelayCommand<object> _cancelCommand;
+
+        public int Age => _user.Age;
+
+        public string ZodiacSign => _user.ZodiacSign.ToString();
+
+        public string ChineseZodiacSign => _user.ChineseZodiacSign.ToString();
+
         #endregion
 
         #region Properties
         public DateTime Birthday
         {
-            get
-            {
-                return _user.Birthday;
-            }
+            get => _user.Birthday;
             set
             {
-                _user.Birthday = value;
+                if (_user.Birthday != value)
+                {
+                    _user.Birthday = value;
+                    OnPropertyChanged(nameof(Birthday));
+                    // If other properties depend on Birthday, also call OnPropertyChanged for them:
+                    OnPropertyChanged(nameof(Age));
+                    OnPropertyChanged(nameof(ZodiacSign));
+                    OnPropertyChanged(nameof(ChineseZodiacSign));
+                }
             }
         }
 
@@ -42,13 +55,23 @@ namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.ViewModels
                 return _cancelCommand ??= new RelayCommand<object>(_ => Environment.Exit(0));
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         #endregion
 
         private void Submit()
         {
             if (IsLegal())
             {
-
+                OnPropertyChanged(nameof(Age));
+                OnPropertyChanged(nameof(ZodiacSign));
+                OnPropertyChanged(nameof(ChineseZodiacSign));
                 if (IsBirthday())
                 {
                     MessageBox.Show($"Happy birthday, one year closer to retirement 🥳");
