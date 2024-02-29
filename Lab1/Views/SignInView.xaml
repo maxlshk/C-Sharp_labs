@@ -22,7 +22,7 @@
 		<DatePicker Name="DatePicker" Margin="5" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" SelectedDate="{Binding Birthday, Mode=TwoWay}"/>
         <Button Name="BSignIn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Submit" Command ="{Binding SubmitCommand}"/>
         <Button Name="BCancel" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Cancel" Command ="{Binding CancelCommand}"/>
-		<TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding Age}" Margin="5" />
+		<TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding Age}" Margin="5"/>
 		<TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding ZodiacSign}" Margin="5" />
 		<TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding ChineseZodiacSign}" Margin="5" />
     </Grid>

@@ -27,17 +27,27 @@ namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.ViewModels
             get => _user.Birthday;
             set
             {
-                if (_user.Birthday != value)
+                if (_user.Birthday != value && value != DateTime.MinValue)
                 {
                     _user.Birthday = value;
-                    OnPropertyChanged(nameof(Birthday));
-                    // If other properties depend on Birthday, also call OnPropertyChanged for them:
-                    OnPropertyChanged(nameof(Age));
-                    OnPropertyChanged(nameof(ZodiacSign));
-                    OnPropertyChanged(nameof(ChineseZodiacSign));
                 }
             }
         }
+
+        //private Visibility _textBlocksVisibility = Visibility.Hidden;
+
+        //public Visibility TextBlocksVisibility
+        //{
+        //    get => _textBlocksVisibility;
+        //    set
+        //    {
+        //        if (_textBlocksVisibility != value)
+        //        {
+        //            _textBlocksVisibility = value;
+        //            OnPropertyChanged(nameof(TextBlocksVisibility));
+        //        }
+        //    }
+        //}
 
 
         public RelayCommand<object> SubmitCommand
@@ -69,6 +79,7 @@ namespace KMA.ProgrammingInCSharp2022.Practice3LoginControlMVVM.ViewModels
         {
             if (IsLegal())
             {
+                //TextBlocksVisibility = Visibility.Visible;
                 OnPropertyChanged(nameof(Age));
                 OnPropertyChanged(nameof(ZodiacSign));
                 OnPropertyChanged(nameof(ChineseZodiacSign));
