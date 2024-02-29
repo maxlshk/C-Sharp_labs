@@ -16,7 +16,7 @@ namespace KMA.ProgrammingInCSharp.Lab1.ViewModels
                 case MainNavigationTypes.SignIn:
                     return new SignInViewModel(()=>Navigate(MainNavigationTypes.Main));
                 case MainNavigationTypes.Main:
-                    return new MainViewModel(() => Navigate(MainNavigationTypes.SignIn));
+                    return new MainViewModel(()=>Navigate(MainNavigationTypes.SignIn));
                 default:
                     return null;
             }

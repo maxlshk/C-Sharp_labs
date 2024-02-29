@@ -10,7 +10,6 @@ namespace KMA.ProgrammingInCSharp.Lab1.ViewModels
         #region Fields
         private UserCandidate _user = new UserCandidate();
         private RelayCommand<object> _signInCommand;
-        //private RelayCommand<object> _gotoSignUpCommand;
         private RelayCommand<object> _cancelCommand;
         private Action _gotoMain;
 
@@ -66,25 +65,15 @@ namespace KMA.ProgrammingInCSharp.Lab1.ViewModels
             else
             {
                 User user = new User(_user);
+                User.CurrentUser = user;
                 MessageBox.Show($"Sign In was successful for user ");
                 _gotoMain.Invoke();
             }
-        }
-
-        private bool TodayBirthday()
-        {
-            return _user.Birthday.Day == DateTime.Now.Day && _user.Birthday.Month == DateTime.Now.Month;
         }
 
         private bool IsLegal()
         {
             return _user.Age > 0 && _user.Age < 135;
         }
-
-        //private void GotoSignUp()
-        //{
-        //    _gotoSignUp.Invoke();
-        //}
-
     }
 }

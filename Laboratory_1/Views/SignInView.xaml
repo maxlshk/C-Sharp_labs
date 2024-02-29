@@ -15,9 +15,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <controls:BirthdayPicker x:Name="TbLogin" Grid.Row="0" Grid.Column="0" Caption="Login" ></controls:BirthdayPicker>
+        <controls:BirthdayPicker x:Name="TbLogin" Grid.Row="0" Grid.Column="0" Caption="Birthday" ></controls:BirthdayPicker>
         <!--<controls:PasswordBoxWithCaption x:Name="PbPassword" Grid.Row="1" Grid.Column="0" Caption="Password" PasswordChanged="PbPassword_OnLostFocus"></controls:PasswordBoxWithCaption>-->
-        <Button Name="BSignIn" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Sign in" Command ="{Binding SignInCommand}"/>
+        <Button Name="BSignIn" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Submit" Command ="{Binding SignInCommand}"/>
         <Button Name="BCancel" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Cancel" Command ="{Binding CancelCommand}"/>
     </Grid>
 </UserControl>

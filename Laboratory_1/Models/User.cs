@@ -7,6 +7,28 @@
             BirthDay = _user.Birthday;
             Age = _user.Age;    
         }
+
+        private static User? _currentUser;
+        public static event EventHandler? CurrentUserChanged;
+
+        public static User? CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                if (_currentUser != value)
+                {
+                    _currentUser = value;
+                    OnCurrentUserChanged();
+                }
+            }
+        }
+
+        private static void OnCurrentUserChanged()
+        {
+            CurrentUserChanged?.Invoke(null, EventArgs.Empty);
+        }
+
         public DateTime BirthDay { get; }
 
         public int Age { get; }
@@ -60,6 +82,8 @@
         }
 
         public string ChineseZodiacSign => ((ChineseZodiacSigns)((BirthDay.Year - 4) % 12)).ToString();
+
+        public bool IsBirthday => BirthDay.Day == DateTime.Today.Day && BirthDay.Month == DateTime.Today.Month;
     }
 
     public enum ZodiacSigns

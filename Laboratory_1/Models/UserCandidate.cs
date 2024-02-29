@@ -3,7 +3,7 @@
     class UserCandidate
     {
         #region Fields
-        private DateTime _birthday;
+        private DateTime _birthday = DateTime.Today;
         #endregion
 
         #region Properties
