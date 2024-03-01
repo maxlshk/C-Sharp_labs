@@ -66,7 +66,7 @@ namespace KMA.ProgrammingInCSharp.Lab1.ViewModels
             {
                 User user = new User(_user);
                 User.CurrentUser = user;
-                MessageBox.Show($"Sign In was successful for user ");
+                MessageBox.Show($"Birthday {user.BirthDay} submitted!");
                 _gotoMain.Invoke();
             }
         }
