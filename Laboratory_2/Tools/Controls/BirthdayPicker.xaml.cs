@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace KMA.ProgrammingInCSharp.Lab1.Tools.Controls
+namespace KMA.ProgrammingInCSharp.Lab2.Tools.Controls
 {
     /// <summary>
     /// Interaction logic for BirthdayPicker.xaml

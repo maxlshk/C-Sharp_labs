@@ -1,9 +1,9 @@
-﻿using KMA.ProgrammingInCSharp.Lab1.Models;
-using KMA.ProgrammingInCSharp.Lab1.Navigation;
-using KMA.ProgrammingInCSharp.Lab1.Tools;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using KMA.ProgrammingInCSharp.Lab2.Models;
+using KMA.ProgrammingInCSharp.Lab2.Navigation;
+using KMA.ProgrammingInCSharp.Lab2.Tools;
 
-namespace KMA.ProgrammingInCSharp.Lab1.ViewModels
+namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
 {
     class MainViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace KMA.ProgrammingInCSharp.Lab1
+namespace KMA.ProgrammingInCSharp.Lab2
 {
     /// <summary>
     /// Interaction logic for App.xaml

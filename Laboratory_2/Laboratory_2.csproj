@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <RootNamespace>KMA.ProgrammingInCSharp.Lab2</RootNamespace>
+    <AssemblyName>KMA.ProgrammingInCSharp.Lab2</AssemblyName>
   </PropertyGroup>
 
 </Project>

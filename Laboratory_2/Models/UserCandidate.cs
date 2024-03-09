@@ -1,4 +1,4 @@
-﻿namespace KMA.ProgrammingInCSharp.Lab1.Models
+﻿namespace KMA.ProgrammingInCSharp.Lab2.Models
 {
     class UserCandidate
     {

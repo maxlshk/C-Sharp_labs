@@ -1,8 +1,7 @@
 ﻿using System.Windows;
-using KMA.ProgrammingInCSharp.Lab1;
-using KMA.ProgrammingInCSharp.Lab1.ViewModels;
+using KMA.ProgrammingInCSharp.Lab2.ViewModels;
 
-namespace KMA.ProgrammingInCSharp.Lab1
+namespace KMA.ProgrammingInCSharp.Lab2
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

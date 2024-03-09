@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace KMA.ProgrammingInCSharp.Lab1.Navigation
+namespace KMA.ProgrammingInCSharp.Lab2.Navigation
 {
     internal abstract class BaseNavigatableViewModel<TObject> : INotifyPropertyChanged where TObject : Enum
     {

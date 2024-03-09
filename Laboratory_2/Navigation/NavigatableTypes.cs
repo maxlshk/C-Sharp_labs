@@ -1,4 +1,4 @@
-﻿namespace KMA.ProgrammingInCSharp.Lab1.Navigation
+﻿namespace KMA.ProgrammingInCSharp.Lab2.Navigation
 {
     enum MainNavigationTypes
     {

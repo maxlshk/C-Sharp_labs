@@ -1,8 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using KMA.ProgrammingInCSharp.Lab1.ViewModels;
+﻿using System.Windows.Controls;
 
-namespace KMA.ProgrammingInCSharp.Lab1.Views
+namespace KMA.ProgrammingInCSharp.Lab2.Views
 {
     /// <summary>
     /// Interaction logic for SignInControl.xaml

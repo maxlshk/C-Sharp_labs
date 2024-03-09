@@ -32,7 +32,7 @@ SOFTWARE. */
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace KMA.ProgrammingInCSharp.Lab1
+namespace KMA.ProgrammingInCSharp.Lab2
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,
