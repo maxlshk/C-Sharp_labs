@@ -16,7 +16,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
         private string _email;
         private DateTime _date;
 
-        //private string _information = "";
         private bool _enableButton = true;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -80,15 +79,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
                 OnPropertyChanged("Person");
             }
         }
-        //public string Information
-        //{
-        //    get { return _information; }
-        //    set
-        //    {
-        //        _information = value;
-        //        OnPropertyChanged("Information");
-        //    }
-        //}
         public bool ProceedEnabled
         {
             get { return _enableButton; }
@@ -149,76 +139,4 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
-
-    //class SignInViewModel : INavigatable<MainNavigationTypes>
-    //{
-    //    #region Fields
-    //    private UserCandidate _user = new UserCandidate();
-    //    private RelayCommand<object> _signInCommand;
-    //    private RelayCommand<object> _cancelCommand;
-    //    private Action _gotoMain;
-
-    //    public SignInViewModel(Action gotoMain)
-    //    {
-    //        _gotoMain = gotoMain;
-    //    }
-
-    //    #endregion
-
-    //    #region Properties
-    //    public DateTime Birthday
-    //    {
-    //        get
-    //        {
-    //            return _user.Birthday;
-    //        }
-    //        set
-    //        {
-    //            _user.Birthday = value;
-    //        }
-    //    }
-
-    //    public RelayCommand<object> SignInCommand
-    //    {
-    //        get
-    //        {
-    //            return _signInCommand ??= new RelayCommand<object>(_ => SignIn());
-    //        }
-    //    }
-
-    //    public RelayCommand<object> CancelCommand
-    //    {
-    //        get
-    //        {
-    //            return _cancelCommand ??= new RelayCommand<object>(_ => Environment.Exit(0));
-    //        }
-    //    }
-
-    //    public MainNavigationTypes ViewType
-    //    {
-    //        get
-    //        {
-    //            return MainNavigationTypes.SignIn;
-    //        }
-    //    }
-    //    #endregion
-
-    //    private void SignIn()
-    //    {
-    //        if (!IsLegal())
-    //            MessageBox.Show("Incorrect age!");
-    //        else
-    //        {
-    //            User user = new User(_user);
-    //            User.CurrentUser = user;
-    //            MessageBox.Show($"Birthday {user.BirthDay} submitted!");
-    //            _gotoMain.Invoke();
-    //        }
-    //    }
-
-    //    private bool IsLegal()
-    //    {
-    //        return _user.Age > 0 && _user.Age < 135;
-    //    }
-    //}
 }
