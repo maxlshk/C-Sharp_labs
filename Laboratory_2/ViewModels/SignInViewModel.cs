@@ -25,14 +25,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
         private Action _gotoMain;
         #endregion
 
-
-        public SignInViewModel(Action gotoMain)
-        {
-            _gotoMain = gotoMain;
-        }
-
-
-
         #region Properties
         public string Name
         {
@@ -106,22 +98,25 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
 
         #endregion
 
+        public SignInViewModel(Action gotoMain)
+        {
+            _gotoMain = gotoMain;
+        }
+
         private async void InfomationProceedCommand(object obj)
         {
-            //Information = "";
             await Task.Run(() =>
             {
                 Thread.Sleep(500);
                 Person = new Person(Name, Surname, Email, Date);
                 if (Person.ValidBirthday())
                 {
-                    //Information = Person.ToString();
                     Person.CurrentPerson = Person;
                     _gotoMain.Invoke();
                 }
                 else
                 {
-                    MessageBox.Show("You have entered an incorrect date of birth, please try again");
+                    MessageBox.Show("Invalid birthdate!");
                 }
                 Thread.Sleep(500);
             });

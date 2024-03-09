@@ -74,6 +74,7 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
         }
         #endregion
 
+        #region Methods
         private int CalculateAge()
         {
             var today = DateTime.Today;
@@ -160,5 +161,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
             
             return builder.ToString();
         }
+        #endregion
     }
 }
