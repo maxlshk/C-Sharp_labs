@@ -22,7 +22,7 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
         private readonly string _sunSign;
         private readonly string _chineseSign;
 
-        private readonly string[] chineseZodiacArray =
+        private readonly string[] chineseZodiacs =
         { "Monkey", "Rooster", "Dog",
           "Pig", "Rat", "Ox",
           "Tiger", "Rabbit", "Dragon",
@@ -72,10 +72,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
             IsBirthday = IsTodayBirthDay();
             IsAdult = Age >= 18;
         }
-        Person(string firstName, string surName, string email)
-            : this(firstName, surName, email, DateTime.Today) { }
-        Person(string firstName, string surName, DateTime birthDay)
-            : this(firstName, surName, "test@gmail.com", birthDay) { }
         #endregion
 
         private int CalculateAge()
@@ -93,7 +89,7 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
         private string ChineseZodiac()
         {
             var year = BirthDay.Year;
-            return chineseZodiacArray[year % 12];
+            return chineseZodiacs[year % 12];
         }
         private string SunZodiac()
         {
@@ -110,7 +106,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
                 case 3:
                     if (day < 21) return "Pisces";
                     else return "Aries";
-
                 case 4:
                     if (day < 20) return "Aries";
                     else return "Taurus";
@@ -120,7 +115,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
                 case 6:
                     if (day < 21) return "Gemini";
                     else return "Cancer";
-
                 case 7:
                     if (day < 23) return "Cancer";
                     else return "Leo";
@@ -130,7 +124,6 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
                 case 9:
                     if (day < 23) return "Virgo";
                     else return "Libra";
-
                 case 10:
                     if (day < 23) return "Libra";
                     else return "Scorpio";
@@ -145,26 +138,26 @@ namespace KMA.ProgrammingInCSharp.Lab2.Models
         }
         public bool ValidBirthday()
         {
-            if (Age < 0) return false;
-            if (Age > 135) return false;
+            if (Age > 135 || Age < 0) return false;
             return true;
         }
 
         public override string ToString()
         {
             StringBuilder builder = new();
-            builder.AppendLine($"Your name: {Name}");
-            builder.AppendLine($"Your surname: {Surname}");
-            builder.AppendLine($"Your email: {Email}");
-            builder.AppendLine($"Your birthday: {BirthDay.Day}.{BirthDay.Month}.{BirthDay.Year}");
-            builder.AppendLine($"Your chinese sign: {ChineseSign}");
-            builder.AppendLine($"Your sun sign: {SunSign}");
-            builder.AppendLine($"You adult? {IsAdult}");
+            builder.AppendLine($"Name: {Name}");
+            builder.AppendLine($"Surname: {Surname}");
+            builder.AppendLine($"E-mail: {Email}");
+            builder.AppendLine($"Birthday date: {BirthDay.Day}.{BirthDay.Month}.{BirthDay.Year}");
+            builder.AppendLine($"Sun sign: {SunSign}");
+            builder.AppendLine($"Chinese sign: {ChineseSign}");
+            builder.AppendLine($"Is adult: {IsAdult}");
+            builder.AppendLine($"Age: {Age}");
             if (IsBirthday)
             {
-                builder.AppendLine("Congratulations on your birthday");
+                builder.AppendLine("HAPPY BIRTHDAY!🔥");
             }
-            builder.AppendLine($"Your age: {Age}");
+            
             return builder.ToString();
         }
     }
