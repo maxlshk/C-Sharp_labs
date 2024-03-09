@@ -11,6 +11,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Name="DpCaption" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,5,2" Text="Caption" FontSize="9" Foreground="Gray"/>
-        <DatePicker Name="DatePicker" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5,0,5,5" SelectedDate="{Binding Birthday, Mode=TwoWay}"></DatePicker>
+        <DatePicker Name="DatePicker" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5,0,5,5" SelectedDate="{Binding Date}"></DatePicker>
     </Grid>
 </UserControl>

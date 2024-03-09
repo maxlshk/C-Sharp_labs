@@ -7,7 +7,7 @@ using KMA.ProgrammingInCSharp.Lab2.Tools;
 
 namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
 {
-    class SignInViewModel : INavigatable<MainNavigationTypes>
+    class SignInViewModel : INavigatable<MainNavigationTypes>, INotifyPropertyChanged
     {
         #region Fields
         private Person _person;
