@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Laboratory_2
+namespace KMA.ProgrammingInCSharp.Lab1
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -10,5 +8,4 @@ namespace Laboratory_2
     public partial class App : Application
     {
     }
-
 }
