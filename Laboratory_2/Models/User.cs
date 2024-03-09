@@ -5,7 +5,7 @@
         public User(UserCandidate _user)
         {
             BirthDay = _user.Birthday;
-            Age = _user.Age;    
+            Age = _user.Age;
         }
 
         #region StaticFields

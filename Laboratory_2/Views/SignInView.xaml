@@ -5,19 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:KMA.ProgrammingInCSharp.Lab2.Tools.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="250" Width="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <controls:BirthdayPicker x:Name="TbLogin" Grid.Row="0" Grid.Column="0" Caption="Birthday" ></controls:BirthdayPicker>
-        <!--<controls:PasswordBoxWithCaption x:Name="PbPassword" Grid.Row="1" Grid.Column="0" Caption="Password" PasswordChanged="PbPassword_OnLostFocus"></controls:PasswordBoxWithCaption>-->
-        <Button Name="BSignIn" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Submit" Command ="{Binding SignInCommand}"/>
-        <Button Name="BCancel" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5" Content="Cancel" Command ="{Binding CancelCommand}"/>
+        <controls:BirthdayPicker x:Name="BirthdayPicker" Grid.Row="0" Grid.Column="0" Caption="Birthday" Grid.ColumnSpan="2"></controls:BirthdayPicker>
+        <controls:MyTextBox x:Name="TbName" Grid.Row="1" Grid.Column="0" Caption="Name" Grid.ColumnSpan="2"></controls:MyTextBox>
+        <controls:MyTextBox x:Name="TbSurname" Grid.Row="2" Grid.Column="0" Caption="Surname" Grid.ColumnSpan="2"></controls:MyTextBox>
+        <controls:MyTextBox x:Name="TbEmail" Grid.Row="3" Grid.Column="0" Caption="E-mail" Grid.ColumnSpan="2"></controls:MyTextBox>
+
+        <Button Name="BSignIn" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Submit" Command ="{Binding SignInCommand}"/>
+        <Button Name="BCancel" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Cancel" Command ="{Binding CancelCommand}"/>
     </Grid>
 </UserControl>

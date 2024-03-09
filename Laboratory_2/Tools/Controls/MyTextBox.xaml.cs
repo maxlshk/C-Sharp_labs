@@ -4,9 +4,9 @@ using System.Windows.Controls;
 namespace KMA.ProgrammingInCSharp.Lab2.Tools.Controls
 {
     /// <summary>
-    /// Interaction logic for TextBoxWithCaption.xaml
+    /// Interaction logic for MyTextBox.xaml
     /// </summary>
-    public partial class TextBoxWithCaption : UserControl
+    public partial class MyTextBox : UserControl
     {
         public string Caption
         {
@@ -36,11 +36,11 @@ namespace KMA.ProgrammingInCSharp.Lab2.Tools.Controls
         (
             "Text",
             typeof(string),
-            typeof(TextBoxWithCaption),
+            typeof(MyTextBox),
             new PropertyMetadata(null)
         );
 
-        public TextBoxWithCaption()
+        public MyTextBox()
         {
             InitializeComponent();
         }
