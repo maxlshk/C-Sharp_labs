@@ -16,7 +16,7 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
         private string _email;
         private DateTime _date;
 
-        private string _information = "";
+        //private string _information = "";
         private bool _enableButton = true;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -80,15 +80,15 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
                 OnPropertyChanged("Person");
             }
         }
-        public string Information
-        {
-            get { return _information; }
-            set
-            {
-                _information = value;
-                OnPropertyChanged("Information");
-            }
-        }
+        //public string Information
+        //{
+        //    get { return _information; }
+        //    set
+        //    {
+        //        _information = value;
+        //        OnPropertyChanged("Information");
+        //    }
+        //}
         public bool ProceedEnabled
         {
             get { return _enableButton; }
@@ -111,24 +111,23 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
 
         public MainNavigationTypes ViewType
         {
-            get
-            {
-                return MainNavigationTypes.SignIn;
-            }
+            get { return MainNavigationTypes.SignIn; }
         }
 
         #endregion
 
         private async void InfomationProceedCommand(object obj)
         {
-            Information = "";
+            //Information = "";
             await Task.Run(() =>
             {
                 Thread.Sleep(500);
                 Person = new Person(Name, Surname, Email, Date);
                 if (Person.ValidBirthday())
                 {
-                    Information = Person.ToString();
+                    //Information = Person.ToString();
+                    Person.CurrentPerson = Person;
+                    _gotoMain.Invoke();
                 }
                 else
                 {

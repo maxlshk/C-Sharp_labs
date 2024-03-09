@@ -12,16 +12,16 @@ namespace KMA.ProgrammingInCSharp.Lab2
         {
             InitializeComponent();
             DataContext = new MainWindowViewModel();
-            this.Closing += MainWindow_Closing;
+            //this.Closing += MainWindow_Closing;
 
         }
-        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (DataContext is MainViewModel mainViewModel)
-            {
-                mainViewModel.Cleanup();
-            }
-        }
+        //private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        //{
+        //    if (DataContext is MainViewModel mainViewModel)
+        //    {
+        //        mainViewModel.Cleanup();
+        //    }
+        //}
     }
 }
 
