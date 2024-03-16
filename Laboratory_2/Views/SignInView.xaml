@@ -19,12 +19,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <controls:BirthdayPicker x:Name="BirthdayPicker" Grid.Row="0" Grid.Column="0" Caption="Birthday" Grid.ColumnSpan="2" ></controls:BirthdayPicker>
-        <controls:MyTextBox x:Name="TbName" Grid.Row="1" Grid.Column="0" Caption="Name" Grid.ColumnSpan="2" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
-        <controls:MyTextBox x:Name="TbSurname" Grid.Row="2" Grid.Column="0" Caption="Surname" Grid.ColumnSpan="2" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
-        <controls:MyTextBox x:Name="TbEmail" Grid.Row="3" Grid.Column="0" Caption="E-mail" Grid.ColumnSpan="2" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
+        <controls:BirthdayPicker x:Name="BirthdayPicker" Grid.Row="0" Grid.Column="0" Caption="Birthday" Grid.ColumnSpan="2" IsEnabled="{Binding Active}"></controls:BirthdayPicker>
+        <controls:MyTextBox x:Name="TbName" Grid.Row="1" Grid.Column="0" Caption="Name" Grid.ColumnSpan="2" IsEnabled="{Binding Active}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
+        <controls:MyTextBox x:Name="TbSurname" Grid.Row="2" Grid.Column="0" Caption="Surname" Grid.ColumnSpan="2" IsEnabled="{Binding Active}" Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
+        <controls:MyTextBox x:Name="TbEmail" Grid.Row="3" Grid.Column="0" Caption="E-mail" Grid.ColumnSpan="2" IsEnabled="{Binding Active}" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></controls:MyTextBox>
 
         <Button Name="BSignIn" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Submit" Command ="{Binding SignInCommand}" IsEnabled="{Binding ProceedEnabled}"/>
-        <Button Name="BCancel" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Cancel" Command ="{Binding CancelCommand}"/>
+        <Button Name="BCancel" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Cancel" Command ="{Binding CancelCommand}" IsEnabled="{Binding Active}"/>
     </Grid>
 </UserControl>

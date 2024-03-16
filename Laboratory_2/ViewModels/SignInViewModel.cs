@@ -17,6 +17,7 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
         private DateTime _date;
 
         private bool _enableButton = true;
+        private bool _active = true;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -81,6 +82,16 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
             }
         }
 
+        public bool Active
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                OnPropertyChanged("Active");
+            }
+        }
+
         public RelayCommand<object> SignInCommand
         {
             get { return _signInCommand ??= new RelayCommand<object>(InfomationProceedCommand, _ => CanExecute()); }
@@ -107,6 +118,8 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
         {
             await Task.Run(() =>
             {
+                Active = false;
+                ProceedEnabled = false;
                 Thread.Sleep(500);
                 Person = new Person(Name, Surname, Email, Date);
                 if (Person.ValidBirthday())
@@ -119,6 +132,8 @@ namespace KMA.ProgrammingInCSharp.Lab2.ViewModels
                     MessageBox.Show("Invalid birthdate!");
                 }
                 Thread.Sleep(500);
+                Active = true;
+                ProceedEnabled = true;
             });
         }
         private bool CanExecute()
