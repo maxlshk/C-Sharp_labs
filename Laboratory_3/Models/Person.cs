@@ -6,6 +6,22 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
 {
     class Person
     {
+        #region Constructors
+        internal Person(string name, string surname, string email, DateTime birthDay)
+        {
+            Name = name;
+            Surname = surname;
+            Email = email;
+            BirthDay = birthDay;
+            Age = CalculateAge();
+
+            ChineseSign = ChineseZodiac();
+            SunSign = SunZodiac();
+            IsBirthday = IsTodayBirthDay();
+            IsAdult = Age >= 18;
+        }
+        #endregion
+
         #region Fields
 
         private static Person _CurrentPerson;
@@ -57,7 +73,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
             }
             private set
             {
-                if (validEmail(value))
+                if (ValidEmail(value))
                 {
                     _email = value;
                 }
@@ -67,27 +83,32 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
                 }
             }
         }
-        public int Age { get; private set; }
+
+        public int Age
+        {
+            get
+            {
+                return _age;
+            }
+            private set
+            {
+                if (value > 130)
+                {
+                    throw new InvalidBirthdayException("Your birth date has to be less than 130 years ago.");
+                }
+
+                if (value < 0)
+                {
+                    throw new InvalidBirthdayException("Your birth date has to be in the past.");
+                }
+
+                else _age = value;
+            }
+        }
         public bool IsAdult { get; private set; }
         public bool IsBirthday { get; private set; }
         public string SunSign { get; private set; }
         public string ChineseSign { get; private set; }
-        #endregion
-
-        #region Constructors
-        internal Person(string name, string surname, string email, DateTime birthDay)
-        {
-            Name = name;
-            Surname = surname;
-            Email = email;
-            BirthDay = birthDay;
-            Age = CalculateAge();
-
-            ChineseSign = ChineseZodiac();
-            SunSign = SunZodiac();
-            IsBirthday = IsTodayBirthDay();
-            IsAdult = Age >= 18;
-        }
         #endregion
 
         #region Methods
@@ -153,17 +174,9 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
                 default: return "Error";
             }
         }
-        public bool ValidBirthday()
-        {
-            if (Age > 135 || Age < 0) return false;
-            return true;
-        }
-
-        private bool validEmail(string email)
+        private bool ValidEmail(string email)
         {
             string emailPattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
-            //Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            //Match match = regex.Match(email);
             return Regex.IsMatch(email, emailPattern);
         }
 

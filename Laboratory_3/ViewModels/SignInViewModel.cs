@@ -129,17 +129,8 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                     Active = false;
                     ProceedEnabled = false;
                     Thread.Sleep(500);
-                    Person = new Person(Name, Surname, Email, Date);
-                    if (Person.ValidBirthday())
-                    {
-                        Person.CurrentPerson = Person;
-                        _gotoMain.Invoke();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid birthdate!");
-                    }
-
+                    Person.CurrentPerson = new Person(Name, Surname, Email, Date);
+                    _gotoMain.Invoke();
                     Thread.Sleep(500);
                 });
             }
@@ -149,10 +140,16 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 MessageBox.Show(ex.Message);
                 Email = "";
             }
+            catch (InvalidBirthdayException ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(ex.Message);
+                Date = DateTime.MinValue;
+            }
             finally
             {
                 Active = true;
-                ProceedEnabled = CanExecute();
+                ProceedEnabled = true;
             }
             
         }

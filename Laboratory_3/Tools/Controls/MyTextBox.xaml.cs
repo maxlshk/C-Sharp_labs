@@ -65,11 +65,13 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
         private void TbValue_GotFocus(object sender, RoutedEventArgs e)
         {
             SetPlaceholderVisibility();
+            SetCaptionColor();
         }
 
         private void TbValue_LostFocus(object sender, RoutedEventArgs e)
         {
             SetPlaceholderVisibility();
+            SetCaptionColor();
         }
 
         private void SetPlaceholderVisibility()
@@ -81,6 +83,18 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
             else
             {
                 PlaceholderTextBlock.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SetCaptionColor()
+        {
+            if (TbValue.IsFocused)
+            {
+                TbCaption.Foreground = new SolidColorBrush(Colors.DodgerBlue);
+            }
+            else
+            {
+                TbCaption.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
 
