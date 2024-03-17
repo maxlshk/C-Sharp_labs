@@ -17,6 +17,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
         private string _email;
         private DateTime _date;
 
+        private bool _active = true;
         private bool _enableButton = true;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -36,6 +37,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Name");
             }
         }
+
         public string Surname
         {
             get { return _surname; }
@@ -45,6 +47,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Surname");
             }
         }
+
         public string Email
         {
             get { return _email; }
@@ -54,6 +57,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Email");
             }
         }
+
         public DateTime Date
         {
             get { return _date; }
@@ -63,6 +67,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Date");
             }
         }
+
         public Person Person
         {
             get { return _person; }
@@ -72,6 +77,17 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Person");
             }
         }
+
+        public bool Active
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                OnPropertyChanged("Active");
+            }
+        }
+
         public bool ProceedEnabled
         {
             get { return _enableButton; }
@@ -110,6 +126,8 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
             {
                 await Task.Run(() =>
                 {
+                    Active = false;
+                    ProceedEnabled = false;
                     Thread.Sleep(500);
                     Person = new Person(Name, Surname, Email, Date);
                     if (Person.ValidBirthday())
@@ -121,6 +139,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                     {
                         MessageBox.Show("Invalid birthdate!");
                     }
+
                     Thread.Sleep(500);
                 });
             }
@@ -129,6 +148,11 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 Console.WriteLine(ex);
                 MessageBox.Show(ex.Message);
                 Email = "";
+            }
+            finally
+            {
+                Active = true;
+                ProceedEnabled = CanExecute();
             }
             
         }

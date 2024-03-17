@@ -9,6 +9,8 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
     /// </summary>
     public partial class MyTextBox : UserControl
     {
+        private bool _isPlaceholderActive;
+
         #region Properties
         public string Caption
         {
@@ -36,8 +38,14 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
 
         public string Placeholder
         {
-            get { return (string)GetValue(PlaceholderProperty); }
-            set { SetValue(PlaceholderProperty, value); }
+            get
+            {
+                return PlaceholderTextBlock.Text;
+            }
+            set
+            {
+                PlaceholderTextBlock.Text = value;
+            }
         }
         #endregion
 
@@ -49,39 +57,30 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
             new PropertyMetadata(null)
         );
 
-        public static readonly DependencyProperty PlaceholderProperty = DependencyProperty.Register
-        (
-            "Placeholder",
-            typeof(string),
-            typeof(MyTextBox),
-            new PropertyMetadata("")
-        );
-
         private void MyTextBox_Loaded(object sender, RoutedEventArgs e)
         {
-            SetPlaceholder();
+            SetPlaceholderVisibility();
         }
 
         private void TbValue_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (TbValue.Text == Placeholder)
-            {
-                TbValue.Text = "";
-                TbValue.Foreground = Brushes.Black; // Reset to default text color
-            }
+            SetPlaceholderVisibility();
         }
 
         private void TbValue_LostFocus(object sender, RoutedEventArgs e)
         {
-            SetPlaceholder();
+            SetPlaceholderVisibility();
         }
 
-        private void SetPlaceholder()
+        private void SetPlaceholderVisibility()
         {
-            if (string.IsNullOrEmpty(TbValue.Text))
+            if (string.IsNullOrEmpty(TbValue.Text) && !TbValue.IsFocused)
             {
-                TbValue.Text = Placeholder;
-                TbValue.Foreground = Brushes.Gray; // Placeholder text color
+                PlaceholderTextBlock.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PlaceholderTextBlock.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -91,6 +90,14 @@ namespace KMA.ProgrammingInCSharp.Lab3.Tools.Controls
             this.Loaded += MyTextBox_Loaded;
             TbValue.GotFocus += TbValue_GotFocus;
             TbValue.LostFocus += TbValue_LostFocus;
+            this.Unloaded += Cleanup;
         }
+        public void Cleanup(object sender, RoutedEventArgs e)
+        {
+            TbValue.GotFocus -= TbValue_GotFocus;
+            TbValue.LostFocus -= TbValue_LostFocus;
+            TbValue.Loaded -= MyTextBox_Loaded;
+        }
+
     }
 }

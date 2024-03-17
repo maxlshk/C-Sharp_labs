@@ -24,6 +24,7 @@
             Grid.Row="0" 
             Grid.Column="0" 
             Caption="Birthday" 
+            IsEnabled="{Binding Active}"
             Grid.ColumnSpan="2">
         </controls:BirthdayPicker>
 
@@ -33,6 +34,7 @@
             Grid.Column="0" 
             Caption="Name" 
             Grid.ColumnSpan="2" 
+            IsEnabled="{Binding Active}"
             Text="{Binding Name, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
@@ -44,6 +46,7 @@
             Grid.Column="0" 
             Caption="Surname" 
             Grid.ColumnSpan="2" 
+            IsEnabled="{Binding Active}"
             Text="{Binding Surname, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
@@ -55,12 +58,33 @@
             Grid.Column="0" 
             Caption="E-mail" 
             Grid.ColumnSpan="2" 
+            IsEnabled="{Binding Active}"
             Text="{Binding Email, 
             Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}"
             Placeholder="max.loshak@gmail.com" />
 
-        <Button Name="BSignIn" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Submit" Command ="{Binding SignInCommand}" IsEnabled="{Binding ProceedEnabled}"/>
-        <Button Name="BCancel" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="25" Margin="5 10" Content="Cancel" Command ="{Binding CancelCommand}"/>
+        <Button 
+            Name="BSignIn" 
+            Grid.Row="4" 
+            Grid.Column="1" 
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center" 
+            Height="25"
+            Margin="5 10" 
+            Content="Submit"
+            Command ="{Binding SignInCommand}"
+            IsEnabled="{Binding ProceedEnabled}"/>
+        <Button 
+            Name="BCancel" 
+            Grid.Row="4" 
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Height="25" 
+            Margin="5 10" 
+            Content="Cancel" 
+            Command ="{Binding CancelCommand}" 
+            IsEnabled="{Binding Active}"/>
     </Grid>
 </UserControl>
