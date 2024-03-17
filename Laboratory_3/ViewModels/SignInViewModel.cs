@@ -4,6 +4,7 @@ using System.Windows;
 using KMA.ProgrammingInCSharp.Lab3.Models;
 using KMA.ProgrammingInCSharp.Lab3.Navigation;
 using KMA.ProgrammingInCSharp.Lab3.Tools;
+using KMA.ProgrammingInCSharp.Lab3.Tools.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 {
@@ -105,21 +106,31 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 
         private async void InfomationProceedCommand(object obj)
         {
-            await Task.Run(() =>
+            try
             {
-                Thread.Sleep(500);
-                Person = new Person(Name, Surname, Email, Date);
-                if (Person.ValidBirthday())
+                await Task.Run(() =>
                 {
-                    Person.CurrentPerson = Person;
-                    _gotoMain.Invoke();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid birthdate!");
-                }
-                Thread.Sleep(500);
-            });
+                    Thread.Sleep(500);
+                    Person = new Person(Name, Surname, Email, Date);
+                    if (Person.ValidBirthday())
+                    {
+                        Person.CurrentPerson = Person;
+                        _gotoMain.Invoke();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid birthdate!");
+                    }
+                    Thread.Sleep(500);
+                });
+            }
+            catch (InvalidEmailException ex)
+            {
+                Console.WriteLine(ex);
+                MessageBox.Show(ex.Message);
+                Email = "";
+            }
+            
         }
         private bool CanExecute()
         {

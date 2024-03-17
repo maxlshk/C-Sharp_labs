@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
+using KMA.ProgrammingInCSharp.Lab3.Tools.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Lab3.Models
 {
@@ -46,7 +48,25 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public DateTime BirthDay { get; private set; }
-        public string Email { get; private set; }
+
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            private set
+            {
+                if (validEmail(value))
+                {
+                    _email = value;
+                }
+                else
+                {
+                    throw new InvalidEmailException("Not Valid Email");
+                }
+            }
+        }
         public int Age { get; private set; }
         public bool IsAdult { get; private set; }
         public bool IsBirthday { get; private set; }
@@ -137,6 +157,14 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
         {
             if (Age > 135 || Age < 0) return false;
             return true;
+        }
+
+        private bool validEmail(string email)
+        {
+            string emailPattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+            //Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            //Match match = regex.Match(email);
+            return Regex.IsMatch(email, emailPattern);
         }
 
         public override string ToString()
