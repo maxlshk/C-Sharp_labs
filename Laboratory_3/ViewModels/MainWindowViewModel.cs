@@ -6,17 +6,17 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
     {
         public MainWindowViewModel()
         {
-            Navigate(MainNavigationTypes.SignIn);
+            Navigate(MainNavigationTypes.DataInput);
         }
         
         protected override INavigatable<MainNavigationTypes> CreateViewModel(MainNavigationTypes type)
         {
             switch (type)
             {
-                case MainNavigationTypes.SignIn:
-                    return new SignInViewModel(()=>Navigate(MainNavigationTypes.Main));
-                case MainNavigationTypes.Main:
-                    return new MainViewModel(()=>Navigate(MainNavigationTypes.SignIn));
+                case MainNavigationTypes.DataInput:
+                    return new DataInputViewModel(()=>Navigate(MainNavigationTypes.UserCard));
+                case MainNavigationTypes.UserCard:
+                    return new UserCardViewModel(()=>Navigate(MainNavigationTypes.DataInput));
                 default:
                     return null;
             }

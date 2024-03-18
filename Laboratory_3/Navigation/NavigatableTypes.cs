@@ -2,7 +2,7 @@
 {
     enum MainNavigationTypes
     {
-        SignIn,
-        Main
+        DataInput,
+        UserCard
     }
 }

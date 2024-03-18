@@ -20,6 +20,10 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
             IsBirthday = IsTodayBirthDay();
             IsAdult = Age >= 18;
         }
+        Person(string firstName, string surName, string email)
+            : this(firstName, surName, email, DateTime.Today) { }
+        Person(string firstName, string surName, DateTime birthDay)
+            : this(firstName, surName, "test@gmail.com", birthDay) { }
         #endregion
 
         #region Fields
@@ -102,7 +106,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
                     throw new InvalidBirthdayException("Your birth date has to be in the past.");
                 }
 
-                else _age = value;
+                _age = value;
             }
         }
         public bool IsAdult { get; private set; }
@@ -137,40 +141,40 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
             {
                 case 1:
                     if (day < 20) return "Capricorn";
-                    else return "Aquarius";
+                    return "Aquarius";
                 case 2:
                     if (day < 19) return "Aquarius";
-                    else return "Pisces";
+                    return "Pisces";
                 case 3:
                     if (day < 21) return "Pisces";
-                    else return "Aries";
+                    return "Aries";
                 case 4:
                     if (day < 20) return "Aries";
-                    else return "Taurus";
+                    return "Taurus";
                 case 5:
                     if (day < 21) return "Taurus";
-                    else return "Gemini";
+                    return "Gemini";
                 case 6:
                     if (day < 21) return "Gemini";
-                    else return "Cancer";
+                    return "Cancer";
                 case 7:
                     if (day < 23) return "Cancer";
-                    else return "Leo";
+                    return "Leo";
                 case 8:
                     if (day < 23) return "Leo";
-                    else return "Virgo";
+                    return "Virgo";
                 case 9:
                     if (day < 23) return "Virgo";
-                    else return "Libra";
+                    return "Libra";
                 case 10:
                     if (day < 23) return "Libra";
-                    else return "Scorpio";
+                    return "Scorpio";
                 case 11:
                     if (day < 22) return "Scorpio";
-                    else return "Sagittarius";
+                    return "Sagittarius";
                 case 12:
                     if (day < 22) return "Sagittarius";
-                    else return "Capricorn";
+                    return "Capricorn";
                 default: return "Error";
             }
         }

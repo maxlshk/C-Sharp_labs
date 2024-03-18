@@ -8,7 +8,7 @@ using KMA.ProgrammingInCSharp.Lab3.Tools.Exceptions;
 
 namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 {
-    class SignInViewModel : INavigatable<MainNavigationTypes>, INotifyPropertyChanged
+    class DataInputViewModel : INavigatable<MainNavigationTypes>, INotifyPropertyChanged
     {
         #region Fields
         private Person _person;
@@ -110,12 +110,12 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 
         public MainNavigationTypes ViewType
         {
-            get { return MainNavigationTypes.SignIn; }
+            get { return MainNavigationTypes.DataInput; }
         }
 
         #endregion
 
-        public SignInViewModel(Action gotoMain)
+        public DataInputViewModel(Action gotoMain)
         {
             _gotoMain = gotoMain;
         }
@@ -124,10 +124,10 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
         {
             try
             {
+                Active = false;
+                ProceedEnabled = false;
                 await Task.Run(() =>
                 {
-                    Active = false;
-                    ProceedEnabled = false;
                     Thread.Sleep(500);
                     Person.CurrentPerson = new Person(Name, Surname, Email, Date);
                     _gotoMain.Invoke();

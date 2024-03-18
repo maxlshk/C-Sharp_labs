@@ -25,14 +25,11 @@ namespace KMA.ProgrammingInCSharp.Lab3.Navigation
 
         internal void Navigate(TObject type)
         {
-            if (CurrentViewModel != null && CurrentViewModel.ViewType.Equals(type))
+            if (CurrentViewModel.ViewType.Equals(type))
                 return;
 
             INavigatable<TObject> viewModel = GetViewModel(type);
 
-            if (viewModel == null)
-                return;
-            
             _viewModels.Add(viewModel);
             CurrentViewModel = viewModel;
         }
@@ -49,7 +46,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.Navigation
 
         protected abstract INavigatable<TObject> CreateViewModel(TObject type);
         
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

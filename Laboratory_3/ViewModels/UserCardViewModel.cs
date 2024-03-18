@@ -6,7 +6,7 @@ using KMA.ProgrammingInCSharp.Lab3.Tools;
 
 namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
+    class UserCardViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
     {
         #region Fields
         private string _information = "";
@@ -54,12 +54,12 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 
         public MainNavigationTypes ViewType
         {
-            get { return MainNavigationTypes.Main; }
+            get { return MainNavigationTypes.UserCard; }
         }
         #endregion
 
 
-        public MainViewModel(Action gotoSignIn)
+        public UserCardViewModel(Action gotoSignIn)
         {
             _gotoSignIn = gotoSignIn;
         }
