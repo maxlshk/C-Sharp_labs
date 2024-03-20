@@ -11,7 +11,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
     class DataInputViewModel : INavigatable<MainNavigationTypes>, INotifyPropertyChanged
     {
         #region Fields
-        private Person _person;
         private string _name;
         private string _surname;
         private string _email;
@@ -69,17 +68,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 OnPropertyChanged("Date");
             }
         }
-
-        public Person Person
-        {
-            get { return _person; }
-            set
-            {
-                _person = value;
-                OnPropertyChanged("Person");
-            }
-        }
-
         public bool Active
         {
             get { return _active; }

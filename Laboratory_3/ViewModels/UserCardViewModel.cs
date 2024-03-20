@@ -9,7 +9,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
     class UserCardViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
     {
         #region Fields
-        private string _information = "";
         private Person _person;
 
         private readonly MainWindowViewModel _mainWindowViewModel;
@@ -24,26 +23,11 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
         public string Information
         {
             get { return Person.ToString(); }
-            set
-            {
-                _information = value;
-                OnPropertyChanged("Information");
-            }
-        }
-
-        public MainWindowViewModel MVVM
-        {
-            get { return _mainWindowViewModel; }
-            //set
-            //{
-            //    _mainWindowViewModel = value;
-            //    OnPropertyChanged("MVVM");
-            //}
         }
 
         public Person Person
         {
-            get { return MVVM.CurrentPerson; }
+            get { return _mainWindowViewModel.CurrentPerson; }
             set
             {
                 _person = value;
@@ -69,7 +53,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
             get { return MainNavigationTypes.UserCard; }
         }
         #endregion
-
 
         public UserCardViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
         {

@@ -1,7 +1,6 @@
 ﻿using KMA.ProgrammingInCSharp.Lab3.Models;
 using KMA.ProgrammingInCSharp.Lab3.Navigation;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 {
