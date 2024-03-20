@@ -28,7 +28,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
 
         #region Fields
 
-        private static Person _CurrentPerson;
         private string _name;
         private string _surname;
         private DateTime _birthDay;
@@ -49,26 +48,9 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
         #endregion
 
         #region Properties
-
-        public static Person CurrentPerson
-        {
-            get
-            {
-                if (_CurrentPerson == null)
-                {
-                    throw new Exception("Person is not initialized");
-                }
-                return _CurrentPerson;
-            }
-            set
-            {
-                _CurrentPerson = value;
-            }
-        }
         public string Name { get; private set; }
         public string Surname { get; private set; }
         public DateTime BirthDay { get; private set; }
-
         public string Email
         {
             get
@@ -87,7 +69,6 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
                 }
             }
         }
-
         public int Age
         {
             get

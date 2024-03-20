@@ -12,6 +12,8 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
         private string _information = "";
         private Person _person;
 
+        private readonly MainWindowViewModel _mainWindowViewModel;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private RelayCommand<object> _gotoSignInCommand;
@@ -29,9 +31,19 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
             }
         }
 
+        public MainWindowViewModel MVVM
+        {
+            get { return _mainWindowViewModel; }
+            //set
+            //{
+            //    _mainWindowViewModel = value;
+            //    OnPropertyChanged("MVVM");
+            //}
+        }
+
         public Person Person
         {
-            get { return Person.CurrentPerson; }
+            get { return MVVM.CurrentPerson; }
             set
             {
                 _person = value;
@@ -59,8 +71,9 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
         #endregion
 
 
-        public UserCardViewModel(Action gotoSignIn)
+        public UserCardViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
         {
+            _mainWindowViewModel = mainWindowViewModel;
             _gotoSignIn = gotoSignIn;
         }
 

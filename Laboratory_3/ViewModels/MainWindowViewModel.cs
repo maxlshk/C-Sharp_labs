@@ -1,9 +1,22 @@
-﻿using KMA.ProgrammingInCSharp.Lab3.Navigation;
+﻿using KMA.ProgrammingInCSharp.Lab3.Models;
+using KMA.ProgrammingInCSharp.Lab3.Navigation;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 {
-    class MainWindowViewModel : BaseNavigatableViewModel<MainNavigationTypes>
+    class MainWindowViewModel : BaseNavigatableViewModel<MainNavigationTypes>, INotifyPropertyChanged
     {
+        private Person _currentPerson;
+        public Person CurrentPerson
+        {
+            get { return _currentPerson; }
+            set
+            {
+                _currentPerson = value;
+                OnPropertyChanged("CurrentPerson");
+            }
+        }
         public MainWindowViewModel()
         {
             Navigate(MainNavigationTypes.DataInput);
@@ -14,9 +27,9 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
             switch (type)
             {
                 case MainNavigationTypes.DataInput:
-                    return new DataInputViewModel(()=>Navigate(MainNavigationTypes.UserCard));
+                    return new DataInputViewModel(this, ()=>Navigate(MainNavigationTypes.UserCard));
                 case MainNavigationTypes.UserCard:
-                    return new UserCardViewModel(()=>Navigate(MainNavigationTypes.DataInput));
+                    return new UserCardViewModel(this, ()=>Navigate(MainNavigationTypes.DataInput));
                 default:
                     return null;
             }

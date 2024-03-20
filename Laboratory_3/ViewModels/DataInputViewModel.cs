@@ -22,6 +22,8 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private readonly MainWindowViewModel _mainWindowViewModel;
+
         private RelayCommand<object> _signInCommand;
         private RelayCommand<object> _cancelCommand;
         private Action _gotoMain;
@@ -115,11 +117,11 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
 
         #endregion
 
-        public DataInputViewModel(Action gotoMain)
+        public DataInputViewModel(MainWindowViewModel mainWindowViewModel, Action gotoMain)
         {
+            _mainWindowViewModel = mainWindowViewModel;
             _gotoMain = gotoMain;
         }
-
         private async void InfomationProceedCommand(object obj)
         {
             try
@@ -129,7 +131,7 @@ namespace KMA.ProgrammingInCSharp.Lab3.ViewModels
                 await Task.Run(() =>
                 {
                     Thread.Sleep(500);
-                    Person.CurrentPerson = new Person(Name, Surname, Email, Date);
+                    _mainWindowViewModel.CurrentPerson = new Person(Name, Surname, Email, Date);
                     _gotoMain.Invoke();
                     Thread.Sleep(500);
                 });
