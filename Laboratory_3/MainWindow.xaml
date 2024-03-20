@@ -9,10 +9,10 @@
         Title="MainWindow" SizeToContent="WidthAndHeight" MinHeight="210" MinWidth="200" Content="{Binding CurrentViewModel, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
     <Window.Resources>
         <DataTemplate DataType="{ x:Type viewModels:DataInputViewModel}">
-            <views:SignInView></views:SignInView>
+            <views:DataInputView></views:DataInputView>
         </DataTemplate>
         <DataTemplate DataType="{ x:Type viewModels:UserCardViewModel}">
-            <views:MainView></views:MainView>
+            <views:UserCard></views:UserCard>
         </DataTemplate>
     </Window.Resources>
 </Window>

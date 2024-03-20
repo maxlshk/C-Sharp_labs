@@ -25,10 +25,13 @@ namespace KMA.ProgrammingInCSharp.Lab3.Navigation
 
         internal void Navigate(TObject type)
         {
-            if (CurrentViewModel.ViewType.Equals(type))
+            if (CurrentViewModel != null && CurrentViewModel.ViewType.Equals(type))
                 return;
 
             INavigatable<TObject> viewModel = GetViewModel(type);
+
+            if (viewModel == null)
+                return;
 
             _viewModels.Add(viewModel);
             CurrentViewModel = viewModel;

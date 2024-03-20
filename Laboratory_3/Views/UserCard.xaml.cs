@@ -3,11 +3,11 @@
 namespace KMA.ProgrammingInCSharp.Lab3.Views
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for UserCard.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class UserCard : UserControl
     {
-        public MainView()
+        public UserCard()
         {
             InitializeComponent();
         }

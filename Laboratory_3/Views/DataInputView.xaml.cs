@@ -5,9 +5,9 @@ namespace KMA.ProgrammingInCSharp.Lab3.Views
     /// <summary>
     /// Interaction logic for SignInControl.xaml
     /// </summary>
-    public partial class SignInView : UserControl
+    public partial class DataInputView : UserControl
     {
-        public SignInView()
+        public DataInputView()
         {
             InitializeComponent();
         }
