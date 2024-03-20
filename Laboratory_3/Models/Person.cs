@@ -79,12 +79,12 @@ namespace KMA.ProgrammingInCSharp.Lab3.Models
             {
                 if (value > 130)
                 {
-                    throw new InvalidBirthdayException("Your birth date has to be less than 130 years ago.");
+                    throw new TooOldBirthdayException("Your birth date has to be less than 130 years ago.");
                 }
 
                 if (value < 0)
                 {
-                    throw new InvalidBirthdayException("Your birth date has to be in the past.");
+                    throw new UnoccuredBirthdayException("Your birth date has to be in the past.");
                 }
 
                 _age = value;
