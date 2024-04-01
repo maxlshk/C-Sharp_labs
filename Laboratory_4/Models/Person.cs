@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using KMA.ProgrammingInCSharp.Lab4.Tools.Exceptions;
 
@@ -7,7 +8,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
     class Person
     {
         #region Constructors
-        internal Person(string name, string surname, string email, DateTime birthDay)
+        [JsonConstructor]
+        public Person(string name, string surname, string email, DateTime birthDay)
         {
             Name = name;
             Surname = surname;
@@ -28,18 +30,11 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
 
         #region Fields
 
-        private string _name;
-        private string _surname;
-        private DateTime _birthDay;
-        private string _email;
-        private int _age;
+        private readonly string _email;
+        private readonly int _age;
 
-        private readonly bool _isAdult;
-        private readonly bool _isBirthday;
-        private readonly string _sunSign;
-        private readonly string _chineseSign;
 
-        private readonly string[] chineseZodiacs =
+        private readonly string[] _chineseZodiacs =
         { "Monkey", "Rooster", "Dog",
           "Pig", "Rat", "Ox",
           "Tiger", "Rabbit", "Dragon",
@@ -48,16 +43,15 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
         #endregion
 
         #region Properties
-        public string Name { get; private set; }
-        public string Surname { get; private set; }
-        public DateTime BirthDay { get; private set; }
-        public string Email
+
+        private string Name { get; set; }
+        private string Surname { get; set; }
+        private DateTime BirthDay { get; set; }
+
+        private string Email
         {
-            get
-            {
-                return _email;
-            }
-            private set
+            get => _email;
+            init
             {
                 if (ValidEmail(value))
                 {
@@ -69,31 +63,25 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
                 }
             }
         }
-        public int Age
+
+        private int Age
         {
-            get
+            get => _age;
+            init
             {
-                return _age;
-            }
-            private set
-            {
-                if (value > 130)
+                _age = value switch
                 {
-                    throw new TooOldBirthdayException("Your birth date has to be less than 130 years ago.");
-                }
-
-                if (value < 0)
-                {
-                    throw new UnoccuredBirthdayException("Your birth date has to be in the past.");
-                }
-
-                _age = value;
+                    > 130 => throw new TooOldBirthdayException("Your birth date has to be less than 130 years ago."),
+                    < 0 => throw new UnoccuredBirthdayException("Your birth date has to be in the past."),
+                    _ => value
+                };
             }
         }
-        public bool IsAdult { get; private set; }
-        public bool IsBirthday { get; private set; }
-        public string SunSign { get; private set; }
-        public string ChineseSign { get; private set; }
+
+        private bool IsAdult { get; set; }
+        private bool IsBirthday { get; set; }
+        private string SunSign { get; set; }
+        private string ChineseSign { get; set; }
         #endregion
 
         #region Methods
@@ -112,7 +100,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
         private string ChineseZodiac()
         {
             var year = BirthDay.Year;
-            return chineseZodiacs[year % 12];
+            return _chineseZodiacs[year % 12];
         }
         private string SunZodiac()
         {
@@ -121,47 +109,35 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
             switch (month)
             {
                 case 1:
-                    if (day < 20) return "Capricorn";
-                    return "Aquarius";
+                    return day < 20 ? "Capricorn" : "Aquarius";
                 case 2:
-                    if (day < 19) return "Aquarius";
-                    return "Pisces";
+                    return day < 19 ? "Aquarius" : "Pisces";
                 case 3:
-                    if (day < 21) return "Pisces";
-                    return "Aries";
+                    return day < 21 ? "Pisces" : "Aries";
                 case 4:
-                    if (day < 20) return "Aries";
-                    return "Taurus";
+                    return day < 20 ? "Aries" : "Taurus";
                 case 5:
-                    if (day < 21) return "Taurus";
-                    return "Gemini";
+                    return day < 21 ? "Taurus" : "Gemini";
                 case 6:
-                    if (day < 21) return "Gemini";
-                    return "Cancer";
+                    return day < 21 ? "Gemini" : "Cancer";
                 case 7:
-                    if (day < 23) return "Cancer";
-                    return "Leo";
+                    return day < 23 ? "Cancer" : "Leo";
                 case 8:
-                    if (day < 23) return "Leo";
-                    return "Virgo";
+                    return day < 23 ? "Leo" : "Virgo";
                 case 9:
-                    if (day < 23) return "Virgo";
-                    return "Libra";
+                    return day < 23 ? "Virgo" : "Libra";
                 case 10:
-                    if (day < 23) return "Libra";
-                    return "Scorpio";
+                    return day < 23 ? "Libra" : "Scorpio";
                 case 11:
-                    if (day < 22) return "Scorpio";
-                    return "Sagittarius";
+                    return day < 22 ? "Scorpio" : "Sagittarius";
                 case 12:
-                    if (day < 22) return "Sagittarius";
-                    return "Capricorn";
+                    return day < 22 ? "Sagittarius" : "Capricorn";
                 default: return "Error";
             }
         }
         private bool ValidEmail(string email)
         {
-            string emailPattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+            const string emailPattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
             return Regex.IsMatch(email, emailPattern);
         }
 
