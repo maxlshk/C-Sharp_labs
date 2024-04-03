@@ -6,8 +6,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 {
     class MainWindowViewModel : BaseNavigatableViewModel<MainNavigationTypes>, INotifyPropertyChanged
     {
-        private Person _currentPerson;
-        public Person CurrentPerson
+        private Person? _currentPerson;
+        public Person? CurrentPerson
         {
             get { return _currentPerson; }
             set
@@ -18,7 +18,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         }
         public MainWindowViewModel()
         {
-            Navigate(MainNavigationTypes.DataInput);
+            Navigate(MainNavigationTypes.UserCard);
         }
         
         protected override INavigatable<MainNavigationTypes> CreateViewModel(MainNavigationTypes type)

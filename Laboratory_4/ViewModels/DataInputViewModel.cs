@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using KMA.ProgrammingInCSharp.Lab4.Models;
 using KMA.ProgrammingInCSharp.Lab4.Navigation;
+using KMA.ProgrammingInCSharp.Lab4.Repository;
 using KMA.ProgrammingInCSharp.Lab4.Tools;
 using KMA.ProgrammingInCSharp.Lab4.Tools.Exceptions;
 
@@ -11,6 +12,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
     class DataInputViewModel : INavigatable<MainNavigationTypes>, INotifyPropertyChanged
     {
         #region Fields
+
+        private Person? _person;
         private string _name;
         private string _surname;
         private string _email;
@@ -29,6 +32,15 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         #endregion
 
         #region Properties
+        public Person? Person
+        {
+            get { return _person; }
+            set
+            {
+                _person = value;
+                OnPropertyChanged("Person");
+            }
+        }
         public string Name
         {
             get { return _name; }
@@ -109,6 +121,16 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoMain = gotoMain;
+            
+            if (_mainWindowViewModel.CurrentPerson != null)
+            {
+                // Editing an existing user
+                Person = _mainWindowViewModel.CurrentPerson;
+                Name = Person.Name;
+                Surname = Person.Surname;
+                Email = Person.Email;
+                Date = Person.BirthDay;
+            }
         }
         private async void InfomationProceedCommand(object obj)
         {
@@ -120,6 +142,23 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 {
                     Thread.Sleep(500);
                     _mainWindowViewModel.CurrentPerson = new Person(Name, Surname, Email, Date);
+
+                    if (Person == null)
+                    {
+                        var textMsg = "Sure About Saving Person?:\n" + _mainWindowViewModel.CurrentPerson.ToString();
+                        var message = MessageBox.Show(textMsg, "Save", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        StorageManager.Storage.AddPerson(_mainWindowViewModel.CurrentPerson);
+                    }
+                    else
+                    {
+                        var message = MessageBox.Show("Sure About Editing Person?", "Edit", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        if (message == MessageBoxResult.Yes)
+                        {
+                            StorageManager.Storage.EditPerson(_person, _mainWindowViewModel.CurrentPerson);
+                        }
+
+                    }
+                    
                     _gotoMain.Invoke();
                     Thread.Sleep(500);
                 });

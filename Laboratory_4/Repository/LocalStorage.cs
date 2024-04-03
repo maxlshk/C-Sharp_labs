@@ -63,7 +63,7 @@ class LocalStorage
         }
     }
 
-    private void SaveInStorage()
+    public void SaveInStorage()
     {
         var stringObj = JsonSerializer.Serialize(_storedUsers);
         using StreamWriter sw = File.CreateText(RepositoryFile);
@@ -85,7 +85,7 @@ class LocalStorage
         _storedUsers.Remove(person);
     }
 
-    public List<Person>? PersonsList
+    public List<Person> PersonsList
     {
         get
         {

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using KMA.ProgrammingInCSharp.Lab4.Repository;
 using KMA.ProgrammingInCSharp.Lab4.ViewModels;
 
 namespace KMA.ProgrammingInCSharp.Lab4
@@ -11,6 +12,7 @@ namespace KMA.ProgrammingInCSharp.Lab4
         public MainWindow()
         {
             InitializeComponent();
+            StorageManager.Instance(new LocalStorage());
             DataContext = new MainWindowViewModel();
         }
     }

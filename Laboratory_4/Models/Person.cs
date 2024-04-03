@@ -44,11 +44,11 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
 
         #region Properties
 
-        private string Name { get; set; }
-        private string Surname { get; set; }
-        private DateTime BirthDay { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public DateTime BirthDay { get; set; }
 
-        private string Email
+        public string Email
         {
             get => _email;
             init
@@ -64,7 +64,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
             }
         }
 
-        private int Age
+        public int Age
         {
             get => _age;
             init
@@ -78,10 +78,10 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
             }
         }
 
-        private bool IsAdult { get; set; }
-        private bool IsBirthday { get; set; }
-        private string SunSign { get; set; }
-        private string ChineseSign { get; set; }
+        public bool IsAdult { get; set; }
+        public bool IsBirthday { get; set; }
+        public string SunSign { get; set; }
+        public string ChineseSign { get; set; }
         #endregion
 
         #region Methods
