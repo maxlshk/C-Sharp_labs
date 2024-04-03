@@ -6,48 +6,68 @@ namespace KMA.ProgrammingInCSharp.Lab4.Repository;
 class LocalStorage
 {
     #region Fields
-    private List<Person>? _storedUsers;
-    // Saved in C:\Users\{User}\AppData\Roaming
-    private static readonly string RepoFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lab4UsersRepo.txt");
-    
+    private List<Person> _storedUsers;
+    private static readonly string RepoFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lab4Users");
     private static readonly string RepositoryFile = Path.Combine(RepoFolder, "Users.txt");
     #endregion
 
     #region Constructor
     internal LocalStorage()
     {
-        if (!File.Exists(RepositoryFile))
-        {
-            if (!Directory.Exists(RepoFolder))
-            {
-                Directory.CreateDirectory(RepoFolder);
-            }
-            var random = new Random();
-            _storedUsers = new List<Person>();
-            // 50 users
-            SaveInStorage(); 
-        }
-        else
+        try
         {
             _storedUsers = RetrieveStorageUsers();
+        }
+        catch
+        {
+            EnsureDirectoryExists(RepoFolder);
+            _storedUsers = FillUsers();
+            SaveInStorage();
         }
     }
     #endregion
 
-    private List<Person>? RetrieveStorageUsers()
+    private List<Person> RetrieveStorageUsers()
     {
-        string? stringifiedUsers;
-        using (StreamReader sr = new StreamReader(RepositoryFile))
-            stringifiedUsers = sr.ReadToEnd();
-        
-        return JsonSerializer.Deserialize<List<Person>>(stringifiedUsers);
+        using StreamReader sr = new StreamReader(RepositoryFile);
+        var stringifiedUsers = sr.ReadToEnd();
+
+        var users = JsonSerializer.Deserialize<List<Person>>(stringifiedUsers);
+        if (users == null) throw new InvalidOperationException("Deserialized users are null.");
+
+        return users;
+    }
+    
+    private List<Person> FillUsers(){
+        var random = new Random();
+        List<Person> users = new List<Person>();
+
+        for (int i = 1; i < 51; i++)
+        {
+            var name = "Name_" + i;
+            var surname = "Surname_" + i;
+            var email = "user.email." + i + "@gmail.com";
+            var birthDay = new DateTime(random.Next(1940, 2021), random.Next(1, 13), random.Next(1, 27));
+            var person = new Person(name, surname, email, birthDay);
+            users.Add(person);
+        }
+
+        return users;
+    }
+
+    private void EnsureDirectoryExists(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 
     private void SaveInStorage()
     {
         var stringObj = JsonSerializer.Serialize(_storedUsers);
         using StreamWriter sw = File.CreateText(RepositoryFile);
-            sw.Write(stringObj);
+        sw.Write(stringObj);
     }
 
     public void EditPerson(Person previos, Person next)

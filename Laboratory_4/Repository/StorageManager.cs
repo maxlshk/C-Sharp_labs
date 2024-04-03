@@ -2,6 +2,15 @@
 
 internal class StorageManager
 {
+    internal static void Instance(LocalStorage storage)
+    {
+        _storage = storage;
+    }
+    
     private static LocalStorage _storage;
-    // TODO: Implement StorageManager
+
+    internal static LocalStorage Storage
+    {
+        get { return _storage; }
+    }
 }
