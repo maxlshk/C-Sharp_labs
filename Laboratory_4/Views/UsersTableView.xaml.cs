@@ -5,11 +5,11 @@ using KMA.ProgrammingInCSharp.Lab4.ViewModels;
 namespace KMA.ProgrammingInCSharp.Lab4.Views
 {
     /// <summary>
-    /// Interaction logic for UserCard.xaml
+    /// Interaction logic for UsersTableView.xaml
     /// </summary>
-    public partial class UserCard : UserControl
+    public partial class UsersTableView : UserControl
     {
-        public UserCard()
+        public UsersTableView()
         {
             InitializeComponent();
         }

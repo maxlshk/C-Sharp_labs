@@ -6,8 +6,15 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 {
     class MainWindowViewModel : BaseNavigatableViewModel<MainNavigationTypes>, INotifyPropertyChanged
     {
+        #region Fields
+
         private Person? _currentPerson;
         public event EventHandler CurrentPersonChanged;
+
+        #endregion
+
+        #region Properties
+
         public Person? CurrentPerson
         {
             get { return _currentPerson; }
@@ -18,6 +25,9 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 CurrentPersonChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        #endregion
+        
         public MainWindowViewModel()
         {
             Navigate(MainNavigationTypes.UserCard);
@@ -30,7 +40,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 case MainNavigationTypes.DataInput:
                     return new DataInputViewModel(this, ()=>Navigate(MainNavigationTypes.UserCard));
                 case MainNavigationTypes.UserCard:
-                    return new UserCardViewModel(this, ()=>Navigate(MainNavigationTypes.DataInput));
+                    return new UsersTableViewModel(this, ()=>Navigate(MainNavigationTypes.DataInput));
                 default:
                     return null;
             }

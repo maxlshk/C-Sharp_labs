@@ -9,7 +9,7 @@ using KMA.ProgrammingInCSharp.Lab4.Tools;
 
 namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 {
-     class UserCardViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
+     class UsersTableViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
     {
         #region Fields
         private ObservableCollection<Person> _persons;
@@ -229,7 +229,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         #endregion
         
         #region Constructors
-        public UserCardViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
+        public UsersTableViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoSignIn = gotoSignIn;
@@ -254,6 +254,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             var filtered = personsList.Where(p => FilterPredicate(p)).ToList();
             Persons = new ObservableCollection<Person>(filtered);
         }
+        
         private bool FilterPredicate(Person person)
         {
             var propertyInfo = typeof(Person).GetProperty(_selectedFilterProperty);
@@ -270,6 +271,18 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             return matches;
         }
 
+        private void ResetFiltersAndFetchAllPersons()
+        {
+            var personsList = StorageManager.Storage.PersonsList; 
+            Persons = new ObservableCollection<Person>(personsList);
+
+            _selectedFilterProperty = null;
+            _filterValue = string.Empty;
+
+            OnPropertyChanged(nameof(Persons));
+            OnPropertyChanged(nameof(SelectedFilterProperty));
+            OnPropertyChanged(nameof(FilterValue));
+        }
         #endregion
 
         #region Listeners
@@ -288,7 +301,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             });
         }
         #endregion
-        
         private bool CanExecuteCommand()
         {
             return _selectedPerson != null;
@@ -297,21 +309,5 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             get { return MainNavigationTypes.UserCard; }
         }
-        
-        
-        public void ResetFiltersAndFetchAllPersons()
-        {
-            var personsList = StorageManager.Storage.PersonsList; 
-            Persons = new ObservableCollection<Person>(personsList); // Reset filtered list to all persons
-
-            // Reset filtering criteria if necessary
-            _selectedFilterProperty = null;
-            _filterValue = string.Empty;
-
-            OnPropertyChanged(nameof(Persons));
-            OnPropertyChanged(nameof(SelectedFilterProperty));
-            OnPropertyChanged(nameof(FilterValue));
-        }
-
     }
 }

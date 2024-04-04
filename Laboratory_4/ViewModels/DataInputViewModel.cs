@@ -117,6 +117,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 
         #endregion
 
+        #region Constructors
         public DataInputViewModel(MainWindowViewModel mainWindowViewModel, Action gotoMain)
         {
             _mainWindowViewModel = mainWindowViewModel;
@@ -125,7 +126,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             
             _mainWindowViewModel.CurrentPersonChanged += MainWindowViewModel_CurrentPersonChanged;
         }
-
+        #endregion
+        
         private void MainWindowViewModel_CurrentPersonChanged(object sender, EventArgs e)
         {
             UpdatePersonDetails(_mainWindowViewModel.CurrentPerson);
@@ -177,7 +179,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                         }
 
                     }
-                    
                     _gotoMain.Invoke();
                     Thread.Sleep(500);
                 });
@@ -199,8 +200,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 Active = true;
                 ProceedEnabled = true;
             }
-            
         }
+        
         private bool CanExecute()
         {
             return !string.IsNullOrWhiteSpace(Name)

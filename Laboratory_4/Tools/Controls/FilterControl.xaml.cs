@@ -4,10 +4,10 @@ using System.Windows.Input;
 
 namespace KMA.ProgrammingInCSharp.Lab4.Tools.Controls
 {
-    public partial class SearchBar : UserControl
+    public partial class FilterControl : UserControl
     {
         public static readonly DependencyProperty SelectedFilterPropertyProperty = 
-            DependencyProperty.Register("SelectedFilterProperty", typeof(string), typeof(SearchBar));
+            DependencyProperty.Register("SelectedFilterProperty", typeof(string), typeof(FilterControl));
 
         public string SelectedFilterProperty
         {
@@ -16,7 +16,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Tools.Controls
         }
 
         public static readonly DependencyProperty FilterValueProperty = 
-            DependencyProperty.Register("FilterValue", typeof(string), typeof(SearchBar), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("FilterValue", typeof(string), typeof(FilterControl), new PropertyMetadata(string.Empty));
 
         public string FilterValue
         {
@@ -25,7 +25,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Tools.Controls
         }
 
         public static readonly DependencyProperty FilterCommandProperty = 
-            DependencyProperty.Register("FilterCommand", typeof(ICommand), typeof(SearchBar));
+            DependencyProperty.Register("FilterCommand", typeof(ICommand), typeof(FilterControl));
 
         public ICommand FilterCommand
         {
@@ -33,7 +33,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Tools.Controls
             set => SetValue(FilterCommandProperty, value);
         }
 
-        public SearchBar()
+        public FilterControl()
         {
             InitializeComponent();
             FilterButton.Click += (s, e) => 

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="KMA.ProgrammingInCSharp.Lab4.Views.UserCard"
+﻿<UserControl x:Class="KMA.ProgrammingInCSharp.Lab4.Views.UsersTableView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,11 +19,11 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <controls:SearchBar Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Margin="40 10"
+        <controls:FilterControl Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Margin="40 10"
                             SelectedFilterProperty="{Binding SelectedFilterProperty, Mode=TwoWay}"
                             FilterValue="{Binding FilterValue, Mode=TwoWay}"
                             FilterCommand="{Binding FilterCommand}" >
-        </controls:SearchBar>
+        </controls:FilterControl>
 
         <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Persons}" ColumnWidth="*" AutoGenerateColumns="False" SelectedValue="{Binding SelectedPerson}" ScrollViewer.CanContentScroll="True">
                 <DataGrid.Columns>

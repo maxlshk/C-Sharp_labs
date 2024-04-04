@@ -11,8 +11,8 @@
         <DataTemplate DataType="{ x:Type viewModels:DataInputViewModel}">
             <views:DataInputView></views:DataInputView>
         </DataTemplate>
-        <DataTemplate DataType="{ x:Type viewModels:UserCardViewModel}">
-            <views:UserCard></views:UserCard>
+        <DataTemplate DataType="{ x:Type viewModels:UsersTableViewModel}">
+            <views:UsersTableView></views:UsersTableView>
         </DataTemplate>
     </Window.Resources>
 </Window>
