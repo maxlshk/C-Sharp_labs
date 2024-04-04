@@ -73,6 +73,7 @@ class LocalStorage
     public void EditPerson(Person previos, Person next)
     {
         _storedUsers[_storedUsers.IndexOf(previos)] = next;
+        SaveInStorage();
     }
 
     public void AddPerson(Person next)

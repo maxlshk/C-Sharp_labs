@@ -108,7 +108,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 
         public RelayCommand<object> CancelCommand
         {
-            get { return _cancelCommand ??= new RelayCommand<object>(_ => Environment.Exit(0)); }
+            get { return _cancelCommand ??= new RelayCommand<object>(_ =>  _gotoMain.Invoke()); }
         }
 
         public MainNavigationTypes ViewType
@@ -118,20 +118,43 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 
         #endregion
 
+        // In DataInputViewModel.cs constructor
         public DataInputViewModel(MainWindowViewModel mainWindowViewModel, Action gotoMain)
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoMain = gotoMain;
-            
-            if (_mainWindowViewModel.CurrentPerson != null)
+    
+            // Subscribe to the event
+            _mainWindowViewModel.CurrentPersonChanged += MainWindowViewModel_CurrentPersonChanged;
+    
+            UpdatePersonDetails(_mainWindowViewModel.CurrentPerson);
+        }
+
+        private void MainWindowViewModel_CurrentPersonChanged(object sender, EventArgs e)
+        {
+            UpdatePersonDetails(_mainWindowViewModel.CurrentPerson);
+        }
+
+        private void UpdatePersonDetails(Person? person)
+        {
+            if (person != null)
             {
-                Person = _mainWindowViewModel.CurrentPerson;
+                Person = person;
                 Name = Person.Name;
                 Surname = Person.Surname;
                 Email = Person.Email;
                 Date = Person.BirthDay;
             }
+            else
+            {
+                Person = null;
+                Name = string.Empty;
+                Surname = string.Empty;
+                Email = string.Empty;
+                Date = DateTime.Today;
+            }
         }
+
         private async void InfomationProceedCommand(object obj)
         {
             try
@@ -147,7 +170,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                     {
                         var textMsg = "Sure About Saving Person?:\n" + person.ToString();
                         var message = MessageBox.Show(textMsg, "Save", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        _mainWindowViewModel.CurrentPerson = person;
                         StorageManager.Storage.AddPerson(person);
                         StorageManager.NotifyStorageUpdated();
                     }
@@ -156,7 +178,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                         var message = MessageBox.Show("Sure About Editing Person?", "Edit", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                         if (message == MessageBoxResult.Yes)
                         {
-                            StorageManager.Storage.EditPerson(_person, _mainWindowViewModel.CurrentPerson);
+                            StorageManager.Storage.EditPerson(Person, person);
                             StorageManager.NotifyStorageUpdated();
                         }
 

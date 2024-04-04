@@ -7,6 +7,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
     class MainWindowViewModel : BaseNavigatableViewModel<MainNavigationTypes>, INotifyPropertyChanged
     {
         private Person? _currentPerson;
+        public event EventHandler CurrentPersonChanged;
         public Person? CurrentPerson
         {
             get { return _currentPerson; }
@@ -14,6 +15,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             {
                 _currentPerson = value;
                 OnPropertyChanged("CurrentPerson");
+                CurrentPersonChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public MainWindowViewModel()
