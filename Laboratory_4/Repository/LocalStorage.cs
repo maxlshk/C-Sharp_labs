@@ -78,11 +78,13 @@ class LocalStorage
     public void AddPerson(Person next)
     {
         _storedUsers.Add(next);
+        SaveInStorage();
     }
 
     public void RemovePerson(Person person)
     {
         _storedUsers.Remove(person);
+        SaveInStorage();
     }
 
     public List<Person> PersonsList

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using KMA.ProgrammingInCSharp.Lab4.Models;
@@ -124,7 +125,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             
             if (_mainWindowViewModel.CurrentPerson != null)
             {
-                // Editing an existing user
                 Person = _mainWindowViewModel.CurrentPerson;
                 Name = Person.Name;
                 Surname = Person.Surname;
@@ -141,13 +141,15 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 await Task.Run(() =>
                 {
                     Thread.Sleep(500);
-                    _mainWindowViewModel.CurrentPerson = new Person(Name, Surname, Email, Date);
+                    Person person = new Person(Name, Surname, Email, Date);
 
                     if (Person == null)
                     {
-                        var textMsg = "Sure About Saving Person?:\n" + _mainWindowViewModel.CurrentPerson.ToString();
+                        var textMsg = "Sure About Saving Person?:\n" + person.ToString();
                         var message = MessageBox.Show(textMsg, "Save", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        StorageManager.Storage.AddPerson(_mainWindowViewModel.CurrentPerson);
+                        _mainWindowViewModel.CurrentPerson = person;
+                        StorageManager.Storage.AddPerson(person);
+                        StorageManager.NotifyStorageUpdated();
                     }
                     else
                     {
@@ -155,6 +157,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                         if (message == MessageBoxResult.Yes)
                         {
                             StorageManager.Storage.EditPerson(_person, _mainWindowViewModel.CurrentPerson);
+                            StorageManager.NotifyStorageUpdated();
                         }
 
                     }

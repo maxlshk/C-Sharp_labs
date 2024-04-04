@@ -68,13 +68,9 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             get { return _editPersonCommand ??= new RelayCommand<object>(EditPersonCommandProcess, _ => CanExecuteCommand()); }
         }
-        public RelayCommand<object> DeletCommand
+        public RelayCommand<object> DeleteCommand
         {
             get { return _deletePersonCommand ??= new RelayCommand<object>(DeletePersonCommandProcess, _ => CanExecuteCommand()); }
-        }
-        public RelayCommand<object> SaveCommand
-        {
-            get { return _savePersonsCommand ??= new RelayCommand<object>(SavePersonsCommandProcess, _ => true ); }
         }
         public RelayCommand<object> SortNameCommand
         {
@@ -114,14 +110,12 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             _mainWindowViewModel.CurrentPerson = null;
             _gotoSignIn.Invoke();
-            Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
         }
     
         private void EditPersonCommandProcess(object obj)
         {   
             _mainWindowViewModel.CurrentPerson = SelectedPerson;
             _gotoSignIn.Invoke();
-            Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
         }
     
         private async void DeletePersonCommandProcess(object obj)
@@ -136,16 +130,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                     Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
                 }
             });
-        }
-    
-        private async void SavePersonsCommandProcess(object obj)
-        {
-            await Task.Run(() =>
-            {
-                StorageManager.Storage.SaveInStorage();
-            });
-            MessageBox.Show("Save all");
-    
         }
     
         #region sorting
@@ -211,8 +195,17 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             _gotoSignIn = gotoSignIn;
             
             _persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
+            StorageManager.StorageUpdated += OnStorageUpdated;
         }
         #endregion
+        
+        private void OnStorageUpdated(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
+            });
+        }
     
         private bool CanExecuteCommand()
         {
