@@ -18,14 +18,13 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-            <controls:SearchBar 
-                Grid.ColumnSpan="3"
-                Grid.Column="0"
-                Grid.Row="0"
-                Margin="40 10"
-                >
-            </controls:SearchBar>
-            
+        
+        <controls:SearchBar Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Margin="40 10"
+                            SelectedFilterProperty="{Binding SelectedFilterProperty, Mode=TwoWay}"
+                            FilterValue="{Binding FilterValue, Mode=TwoWay}"
+                            FilterCommand="{Binding FilterCommand}" >
+        </controls:SearchBar>
+
         <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Persons}" ColumnWidth="*" AutoGenerateColumns="False" SelectedValue="{Binding SelectedPerson}" ScrollViewer.CanContentScroll="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"></DataGridTextColumn>

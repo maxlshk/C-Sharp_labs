@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 using KMA.ProgrammingInCSharp.Lab4.Models;
 using KMA.ProgrammingInCSharp.Lab4.Navigation;
 using KMA.ProgrammingInCSharp.Lab4.Repository;
@@ -13,7 +14,11 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
     {
         #region Fields
         private ObservableCollection<Person> _persons;
+        private ObservableCollection<Person> _allPersons;
         private Person _selectedPerson;
+        
+        private string _selectedFilterProperty;
+        private string _filterValue = string.Empty;
         public event PropertyChangedEventHandler? PropertyChanged;
     
         private RelayCommand<object> _addPersonCommand;
@@ -35,7 +40,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         private RelayCommand<object> _gotoSignInCommand;
         private Action _gotoSignIn;
         #endregion
-    
+        
         #region Properties
         public Person SelectedPerson
         {
@@ -60,18 +65,38 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 OnPropertyChanged("Persons");
             }
         }
-        public RelayCommand<object> AddCommand
+        public string SelectedFilterProperty
         {
-            get { return _addPersonCommand ??= new RelayCommand<object>(AddPersonCommandProcess, _ => true); }
+            get => _selectedFilterProperty;
+            set
+            {
+                _selectedFilterProperty = value;
+                OnPropertyChanged(nameof(SelectedFilterProperty));
+                // No direct call to ApplyFilter here since FilterValue controls when filtering happens
+            }
         }
-        public RelayCommand<object> EditCommand
+
+        public string FilterValue
         {
-            get { return _editPersonCommand ??= new RelayCommand<object>(EditPersonCommandProcess, _ => CanExecuteCommand()); }
+            get => _filterValue;
+            set
+            {
+                _filterValue = value;
+                OnPropertyChanged(nameof(FilterValue));
+                // We'll rely on the FilterCommand being triggered by the UI to apply the filter
+            }
         }
-        public RelayCommand<object> DeleteCommand
+
+
+        public RelayCommand<object> FilterCommand
         {
-            get { return _deletePersonCommand ??= new RelayCommand<object>(DeletePersonCommandProcess, _ => CanExecuteCommand()); }
+            get;
+            set;
         }
+
+
+        #region sorting
+
         public RelayCommand<object> SortNameCommand
         {
             get { return _sortName ??= new RelayCommand<object>(SortNameProcess, _ => true); }
@@ -104,6 +129,21 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             get { return _sortSun ??= new RelayCommand<object>(SortSunSignProcess, _ => true); }
         }
+
+        #endregion
+        public RelayCommand<object> AddCommand
+        {
+            get { return _addPersonCommand ??= new RelayCommand<object>(AddPersonCommandProcess, _ => true); }
+        }
+        public RelayCommand<object> EditCommand
+        {
+            get { return _editPersonCommand ??= new RelayCommand<object>(EditPersonCommandProcess, _ => CanExecuteCommand()); }
+        }
+        public RelayCommand<object> DeleteCommand
+        {
+            get { return _deletePersonCommand ??= new RelayCommand<object>(DeletePersonCommandProcess, _ => CanExecuteCommand()); }
+        }
+       
         #endregion
     
         private void AddPersonCommandProcess(object obj)
@@ -193,17 +233,49 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoSignIn = gotoSignIn;
-            
-            _persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
+    
+            var personsList = StorageManager.Storage.PersonsList; // Assuming this is your repository call
+            _allPersons = new ObservableCollection<Person>(personsList);
+            _persons = new ObservableCollection<Person>(_allPersons);
             StorageManager.StorageUpdated += OnStorageUpdated;
+
+            // Initialize FilterCommand
+            FilterCommand = new RelayCommand<object>(obj => ApplyFilter());
         }
+        
+        private void ApplyFilter()
+        {
+            var filtered = _allPersons.Where(p => FilterPredicate(p)).ToList();
+            Persons = new ObservableCollection<Person>(filtered);
+        }
+
+        private bool FilterPredicate(Person person)
+        {
+            var propertyInfo = typeof(Person).GetProperty(_selectedFilterProperty);
+            if (propertyInfo == null)
+            {
+                Console.WriteLine($"Property '{_selectedFilterProperty}' not found.");
+                return true;
+            }
+
+            var propertyValue = propertyInfo.GetValue(person, null)?.ToString();
+            var matches = !string.IsNullOrWhiteSpace(_filterValue) && propertyValue?.IndexOf(_filterValue, StringComparison.OrdinalIgnoreCase) >= 0;
+    
+            Console.WriteLine($"Filtering {propertyInfo.Name} for value '{_filterValue}' - Match: {matches}");
+            return matches;
+        }
+
+
+
         #endregion
         
         private void OnStorageUpdated(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
+                var personsList = StorageManager.Storage.PersonsList; 
+                _allPersons = new ObservableCollection<Person>(personsList);
+                ApplyFilter(); 
             });
         }
     
@@ -234,66 +306,4 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
-    
-    
-    // class UserCardViewModel : INotifyPropertyChanged, INavigatable<MainNavigationTypes>
-    // {
-    //     #region Fields
-    //     private Person _person;
-    //
-    //     private readonly MainWindowViewModel _mainWindowViewModel;
-    //
-    //     public event PropertyChangedEventHandler? PropertyChanged;
-    //
-    //     private RelayCommand<object> _gotoSignInCommand;
-    //     private Action _gotoSignIn;
-    //     #endregion
-    //
-    //     #region Properties
-    //     public string Information
-    //     {
-    //         get { return Person.ToString(); }
-    //     }
-    //
-    //     public Person Person
-    //     {
-    //         get { return _mainWindowViewModel.CurrentPerson; }
-    //         set
-    //         {
-    //             _person = value;
-    //             OnPropertyChanged("Person");
-    //         }
-    //     }
-    //
-    //     public RelayCommand<object> GotoSignIn
-    //     {
-    //         get
-    //         {
-    //             return _gotoSignInCommand ??= new RelayCommand<object>(_ => GotoSignUp());
-    //         }
-    //     }
-    //
-    //     private void GotoSignUp()
-    //     {
-    //         _gotoSignIn.Invoke();
-    //     }
-    //
-    //     public MainNavigationTypes ViewType
-    //     {
-    //         get { return MainNavigationTypes.UserCard; }
-    //     }
-    //     #endregion
-    //
-    //     public UserCardViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
-    //     {
-    //         _mainWindowViewModel = mainWindowViewModel;
-    //         _gotoSignIn = gotoSignIn;
-    //     }
-    //
-    //     public void OnPropertyChanged([CallerMemberName] string prop = "")
-    //     {
-    //         if (PropertyChanged != null)
-    //             PropertyChanged(this, new PropertyChangedEventArgs(prop));
-    //     }
-    // }
 }

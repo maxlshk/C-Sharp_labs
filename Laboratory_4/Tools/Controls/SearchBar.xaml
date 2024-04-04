@@ -31,15 +31,16 @@
                   VerticalContentAlignment="Center" 
                   Grid.Row="1"
                   Grid.Column="0"
-                  SelectedItem="{Binding SelectedFilterProperty}">
+                  SelectedValuePath="Content"
+                  SelectedValue="{Binding SelectedFilterProperty}">
             <ComboBoxItem Content="Name"/>
             <ComboBoxItem Content="Surname"/>
             <ComboBoxItem Content="E-mail"/>
             <ComboBoxItem Content="Birthday"/>
-            <ComboBoxItem Content="Sun Sign"/>
-            <ComboBoxItem Content="Chinese Sign"/>
-            <ComboBoxItem Content="Is Adult"/>
-            <ComboBoxItem Content="Is Birthday"/>
+            <ComboBoxItem Content="SunSign"/>
+            <ComboBoxItem Content="ChineseSign"/>
+            <ComboBoxItem Content="IsAdult"/>
+            <ComboBoxItem Content="IsBirthday"/>
         </ComboBox>
         <TextBox Name="FilterValueTextBox"
                  VerticalContentAlignment="Center" 
@@ -47,6 +48,8 @@
                  Grid.Column="1"
                  Text="{Binding FilterValue, UpdateSourceTrigger=PropertyChanged}" 
                  />
-        <Button Grid.Row="1" Grid.Column="2" Padding="5" >Search</Button>
+        
+        <Button Name="FilterButton" Grid.Row="1" Grid.Column="2" Padding="5" Command="{Binding FilterCommand}" Content="Filter"/>
+
     </Grid>
 </UserControl>
