@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using KMA.ProgrammingInCSharp.Lab4.Models;
@@ -118,16 +117,12 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 
         #endregion
 
-        // In DataInputViewModel.cs constructor
         public DataInputViewModel(MainWindowViewModel mainWindowViewModel, Action gotoMain)
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoMain = gotoMain;
-    
-            // Subscribe to the event
+            
             _mainWindowViewModel.CurrentPersonChanged += MainWindowViewModel_CurrentPersonChanged;
-    
-            UpdatePersonDetails(_mainWindowViewModel.CurrentPerson);
         }
 
         private void MainWindowViewModel_CurrentPersonChanged(object sender, EventArgs e)
