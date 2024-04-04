@@ -121,6 +121,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoMain = gotoMain;
+            UpdatePersonDetails(_mainWindowViewModel.CurrentPerson);
             
             _mainWindowViewModel.CurrentPersonChanged += MainWindowViewModel_CurrentPersonChanged;
         }
@@ -163,15 +164,13 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
 
                     if (Person == null)
                     {
-                        var textMsg = "Sure About Saving Person?:\n" + person.ToString();
-                        var message = MessageBox.Show(textMsg, "Save", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                         StorageManager.Storage.AddPerson(person);
                         StorageManager.NotifyStorageUpdated();
                     }
                     else
                     {
-                        var message = MessageBox.Show("Sure About Editing Person?", "Edit", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if (message == MessageBoxResult.Yes)
+                        var message = MessageBox.Show($"Submit changes in {Person.Name}?", "Edit", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                        if (message == MessageBoxResult.OK)
                         {
                             StorageManager.Storage.EditPerson(Person, person);
                             StorageManager.NotifyStorageUpdated();

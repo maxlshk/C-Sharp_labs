@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Input;
 using KMA.ProgrammingInCSharp.Lab4.Models;
 using KMA.ProgrammingInCSharp.Lab4.Navigation;
 using KMA.ProgrammingInCSharp.Lab4.Repository;
@@ -14,7 +13,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
     {
         #region Fields
         private ObservableCollection<Person> _persons;
-        private ObservableCollection<Person> _allPersons;
         private Person _selectedPerson;
         
         private string _selectedFilterProperty;
@@ -24,7 +22,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         private RelayCommand<object> _addPersonCommand;
         private RelayCommand<object> _editPersonCommand;
         private RelayCommand<object> _deletePersonCommand;
-        private RelayCommand<object> _savePersonsCommand;
         
         private RelayCommand<object> _sortName;
         private RelayCommand<object> _sortSurname;
@@ -72,10 +69,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             {
                 _selectedFilterProperty = value;
                 OnPropertyChanged(nameof(SelectedFilterProperty));
-                // No direct call to ApplyFilter here since FilterValue controls when filtering happens
             }
         }
-
         public string FilterValue
         {
             get => _filterValue;
@@ -83,20 +78,23 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             {
                 _filterValue = value;
                 OnPropertyChanged(nameof(FilterValue));
-                // We'll rely on the FilterCommand being triggered by the UI to apply the filter
             }
         }
+        #endregion
 
-
+        #region RelayCommands
         public RelayCommand<object> FilterCommand
         {
             get;
             set;
         }
-
-
-        #region sorting
-
+        public RelayCommand<object> GotoSignIn
+        {
+            get
+            {
+                return _gotoSignInCommand ??= new RelayCommand<object>(_ => _gotoSignIn.Invoke());
+            }
+        }
         public RelayCommand<object> SortNameCommand
         {
             get { return _sortName ??= new RelayCommand<object>(SortNameProcess, _ => true); }
@@ -129,8 +127,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             get { return _sortSun ??= new RelayCommand<object>(SortSunSignProcess, _ => true); }
         }
-
-        #endregion
         public RelayCommand<object> AddCommand
         {
             get { return _addPersonCommand ??= new RelayCommand<object>(AddPersonCommandProcess, _ => true); }
@@ -143,19 +139,22 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         {
             get { return _deletePersonCommand ??= new RelayCommand<object>(DeletePersonCommandProcess, _ => CanExecuteCommand()); }
         }
-       
         #endregion
-    
+
+        #region Processes
+
         private void AddPersonCommandProcess(object obj)
         {
             _mainWindowViewModel.CurrentPerson = null;
             _gotoSignIn.Invoke();
+            ResetFiltersAndFetchAllPersons();
         }
     
         private void EditPersonCommandProcess(object obj)
         {   
             _mainWindowViewModel.CurrentPerson = SelectedPerson;
             _gotoSignIn.Invoke();
+            ResetFiltersAndFetchAllPersons();
         }
     
         private async void DeletePersonCommandProcess(object obj)
@@ -167,12 +166,12 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 {
                     StorageManager.Storage.RemovePerson(SelectedPerson);
                     SelectedPerson = null;
-                    Persons = new ObservableCollection<Person>(StorageManager.Storage.PersonsList);
+                    ApplyFilter();
                 }
             });
         }
     
-        #region sorting
+        #region SortingMethods
         private void SortNameProcess(object obj)
         {
             IOrderedEnumerable<Person> persons = from person in _persons orderby person.Name select person;
@@ -226,29 +225,35 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             StorageManager.Storage.PersonsList = Persons.ToList();
         }
         #endregion
-    
-        #region Constructors
+
+        #endregion
         
+        #region Constructors
         public UserCardViewModel(MainWindowViewModel mainWindowViewModel, Action gotoSignIn)
         {
             _mainWindowViewModel = mainWindowViewModel;
             _gotoSignIn = gotoSignIn;
     
-            var personsList = StorageManager.Storage.PersonsList; // Assuming this is your repository call
-            _allPersons = new ObservableCollection<Person>(personsList);
-            _persons = new ObservableCollection<Person>(_allPersons);
+            var personsList = StorageManager.Storage.PersonsList;
+            _persons = new ObservableCollection<Person>(personsList);
             StorageManager.StorageUpdated += OnStorageUpdated;
 
-            // Initialize FilterCommand
             FilterCommand = new RelayCommand<object>(obj => ApplyFilter());
         }
-        
+        #endregion
+
+        #region Filtering
         private void ApplyFilter()
         {
-            var filtered = _allPersons.Where(p => FilterPredicate(p)).ToList();
+            var personsList = StorageManager.Storage.PersonsList;
+            if (string.IsNullOrWhiteSpace(_selectedFilterProperty) || string.IsNullOrWhiteSpace(_filterValue))
+            {
+                Persons = new ObservableCollection<Person>(personsList);
+                return;
+            }
+            var filtered = personsList.Where(p => FilterPredicate(p)).ToList();
             Persons = new ObservableCollection<Person>(filtered);
         }
-
         private bool FilterPredicate(Person person)
         {
             var propertyInfo = typeof(Person).GetProperty(_selectedFilterProperty);
@@ -265,45 +270,48 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             return matches;
         }
 
-
-
         #endregion
+
+        #region Listeners
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
         
         private void OnStorageUpdated(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var personsList = StorageManager.Storage.PersonsList; 
-                _allPersons = new ObservableCollection<Person>(personsList);
-                ApplyFilter(); 
+                Persons = new ObservableCollection<Person>(personsList);
             });
         }
-    
+        #endregion
+        
         private bool CanExecuteCommand()
         {
             return _selectedPerson != null;
         }
-        public RelayCommand<object> GotoSignIn
-        {
-            get
-            {
-                return _gotoSignInCommand ??= new RelayCommand<object>(_ => GotoSignUp());
-            }
-        }
-        
-        private void GotoSignUp()
-        {
-            _gotoSignIn.Invoke();
-        }
-        
         public MainNavigationTypes ViewType
         {
             get { return MainNavigationTypes.UserCard; }
         }
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        
+        
+        public void ResetFiltersAndFetchAllPersons()
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            var personsList = StorageManager.Storage.PersonsList; 
+            Persons = new ObservableCollection<Person>(personsList); // Reset filtered list to all persons
+
+            // Reset filtering criteria if necessary
+            _selectedFilterProperty = null;
+            _filterValue = string.Empty;
+
+            OnPropertyChanged(nameof(Persons));
+            OnPropertyChanged(nameof(SelectedFilterProperty));
+            OnPropertyChanged(nameof(FilterValue));
         }
+
     }
 }
