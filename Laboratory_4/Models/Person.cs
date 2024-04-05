@@ -30,8 +30,8 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
 
         #region Fields
 
-        private readonly string _email;
-        private readonly int _age;
+        private string _email;
+        private int _age;
 
 
         private readonly string[] _chineseZodiacs =
@@ -51,7 +51,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
         public string Email
         {
             get => _email;
-            init
+            set
             {
                 if (ValidEmail(value))
                 {
@@ -67,7 +67,7 @@ namespace KMA.ProgrammingInCSharp.Lab4.Models
         public int Age
         {
             get => _age;
-            init
+            set
             {
                 _age = value switch
                 {

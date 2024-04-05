@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using KMA.ProgrammingInCSharp.Lab4.Models;
 using KMA.ProgrammingInCSharp.Lab4.Navigation;
 using KMA.ProgrammingInCSharp.Lab4.Repository;
@@ -16,22 +17,13 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         private Person _selectedPerson;
         
         private string _selectedFilterProperty;
-        private string _filterValue = string.Empty;
+        private string _filterValue;
+        private string _sorterName;
         public event PropertyChangedEventHandler? PropertyChanged;
     
         private RelayCommand<object> _addPersonCommand;
         private RelayCommand<object> _editPersonCommand;
         private RelayCommand<object> _deletePersonCommand;
-        
-        private RelayCommand<object> _sortName;
-        private RelayCommand<object> _sortSurname;
-        private RelayCommand<object> _sortEmail;
-        private RelayCommand<object> _sortBirthDay;
-    
-        private RelayCommand<object> _sortIsAdult;
-        private RelayCommand<object> _sortIsBirthday;
-        private RelayCommand<object> _sortSun;
-        private RelayCommand<object> _sortChinese;
         
         private readonly MainWindowViewModel _mainWindowViewModel;
         private RelayCommand<object> _gotoSignInCommand;
@@ -80,6 +72,15 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 OnPropertyChanged(nameof(FilterValue));
             }
         }
+        public string SortingBy
+        {
+            get => _sorterName;
+            set
+            {
+                _sorterName = value;
+                PerformSorting();
+            }
+        }
         #endregion
 
         #region RelayCommands
@@ -94,38 +95,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             {
                 return _gotoSignInCommand ??= new RelayCommand<object>(_ => _gotoSignIn.Invoke());
             }
-        }
-        public RelayCommand<object> SortNameCommand
-        {
-            get { return _sortName ??= new RelayCommand<object>(SortNameProcess, _ => true); }
-        }
-        public RelayCommand<object> SortSurnameCommand
-        {
-            get { return _sortSurname ??= new RelayCommand<object>(SortSurnameProcess, _ => true); }
-        }
-        public RelayCommand<object> SortEmailCommand
-        {
-            get { return _sortEmail ??= new RelayCommand<object>(SortEmailProcess, _ => true); }
-        }
-        public RelayCommand<object> SortBirthDayCommand
-        {
-            get { return _sortBirthDay ??= new RelayCommand<object>(SortBirthDayProcess, _ => true); }
-        }
-        public RelayCommand<object> SortIsAdultCommand
-        {
-            get { return _sortIsAdult ??= new RelayCommand<object>(SortIsAdultProcess, _ => true); }
-        }
-        public RelayCommand<object> SortIsBirthdayCommand
-        {
-            get { return _sortIsBirthday ??= new RelayCommand<object>(SortIsBirthDayProcess, _ => true); }
-        }
-        public RelayCommand<object> SortChineseSignCommand
-        {
-            get { return _sortChinese ??= new RelayCommand<object>(SortChineseSignProcess, _ => true); }
-        }
-        public RelayCommand<object> SortSunSignCommand
-        {
-            get { return _sortSun ??= new RelayCommand<object>(SortSunSignProcess, _ => true); }
         }
         public RelayCommand<object> AddCommand
         {
@@ -142,7 +111,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
         #endregion
 
         #region Processes
-
         private void AddPersonCommandProcess(object obj)
         {
             _mainWindowViewModel.CurrentPerson = null;
@@ -170,62 +138,6 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
                 }
             });
         }
-    
-        #region SortingMethods
-        private void SortNameProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.Name select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-    
-        private void SortSurnameProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.Surname select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-    
-        private void SortEmailProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.Email select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-    
-        private void SortBirthDayProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.BirthDay select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-    
-        private void SortIsAdultProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.IsAdult select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-        private void SortIsBirthDayProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.IsBirthday select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-        private void SortChineseSignProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.ChineseSign select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-        private void SortSunSignProcess(object obj)
-        {
-            IOrderedEnumerable<Person> persons = from person in _persons orderby person.SunSign select person;
-            Persons = new ObservableCollection<Person>(persons);
-            StorageManager.Storage.PersonsList = Persons.ToList();
-        }
-        #endregion
-
         #endregion
         
         #region Constructors
@@ -239,6 +151,44 @@ namespace KMA.ProgrammingInCSharp.Lab4.ViewModels
             StorageManager.StorageUpdated += OnStorageUpdated;
 
             FilterCommand = new RelayCommand<object>(obj => ApplyFilter());
+        }
+        #endregion
+        
+        #region Sorting
+        
+        private void PerformSorting()
+        {
+            switch (_sorterName)
+            {
+                case "Name":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.Name));
+                    break;
+                case "Surname":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.Surname));
+                    break;
+                case "E-mail":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.Email));
+                    break;
+                case "Birthday":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.BirthDay));
+                    break;
+                case "IsBirthday":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.IsBirthday));
+                    break;
+                case "IsAdult":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.IsAdult));
+                    break;
+                case "SunSign":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.SunSign));
+                    break;
+                case "ChineseSign":
+                    Persons = new ObservableCollection<Person>(_persons.OrderBy(i => i.ChineseSign));
+                    break;
+                default:
+                    var personsList = StorageManager.Storage.PersonsList; 
+                    Persons = new ObservableCollection<Person>(personsList);
+                    break;
+            }
         }
         #endregion
 

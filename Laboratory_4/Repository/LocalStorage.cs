@@ -11,6 +11,22 @@ class LocalStorage
     private static readonly string RepositoryFile = Path.Combine(RepoFolder, "Users.txt");
     #endregion
 
+    #region Properties
+    public List<Person> PersonsList
+    {
+        get
+        {
+            return _storedUsers.ToList();
+
+        }
+        set
+        {
+            _storedUsers = value;
+
+        }
+    }
+    #endregion
+
     #region Constructor
     internal LocalStorage()
     {
@@ -27,6 +43,7 @@ class LocalStorage
     }
     #endregion
 
+    #region Methods
     private List<Person> RetrieveStorageUsers()
     {
         using StreamReader sr = new StreamReader(RepositoryFile);
@@ -63,13 +80,14 @@ class LocalStorage
         }
     }
 
-    public void SaveInStorage()
+    private void SaveInStorage()
     {
         var stringObj = JsonSerializer.Serialize(_storedUsers);
         using StreamWriter sw = File.CreateText(RepositoryFile);
         sw.Write(stringObj);
     }
-
+    #endregion
+    
     public void EditPerson(Person previos, Person next)
     {
         _storedUsers[_storedUsers.IndexOf(previos)] = next;
@@ -86,19 +104,5 @@ class LocalStorage
     {
         _storedUsers.Remove(person);
         SaveInStorage();
-    }
-
-    public List<Person> PersonsList
-    {
-        get
-        {
-            return _storedUsers.ToList();
-
-        }
-        set
-        {
-            _storedUsers = value;
-
-        }
     }
 }

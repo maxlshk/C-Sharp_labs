@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="KMA.ProgrammingInCSharp.Lab4.Tools.Controls.FilterControl"
+﻿<UserControl x:Class="KMA.ProgrammingInCSharp.Lab4.Tools.Controls.SortControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,9 +11,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
         <TextBlock 
@@ -22,34 +20,27 @@
             HorizontalAlignment="Left" 
             VerticalAlignment="Center" 
             Margin="5,5,5,2" 
-            Text="Filter by:"
+            Text="Sort by:"
             FontSize="9"
             Foreground="Gray"
         />
         
-        <ComboBox Name="FilterPropertyComboBox"
+        <ComboBox Name="SortComboBox"
                   VerticalContentAlignment="Center" 
+                  Padding="5"
                   Grid.Row="1"
                   Grid.Column="0"
-                  SelectedValuePath="Content"
-                  SelectedValue="{Binding SelectedFilterProperty}">
+                  SelectedValue="{Binding SelectedValue, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                  SelectedValuePath="Content">
             <ComboBoxItem Content="Name"/>
             <ComboBoxItem Content="Surname"/>
-            <ComboBoxItem Content="Email"/>
-            <ComboBoxItem Content="BirthDay"/>
+            <ComboBoxItem Content="E-mail"/>
+            <ComboBoxItem Content="Birthday"/>
             <ComboBoxItem Content="SunSign"/>
             <ComboBoxItem Content="ChineseSign"/>
             <ComboBoxItem Content="IsAdult"/>
             <ComboBoxItem Content="IsBirthday"/>
+            <ComboBoxItem Content="Default"/>
         </ComboBox>
-        <TextBox Name="FilterValueTextBox"
-                 VerticalContentAlignment="Center" 
-                 Grid.Row="1"
-                 Grid.Column="1"
-                 Text="{Binding FilterValue, UpdateSourceTrigger=PropertyChanged}" 
-                 />
-        
-        <Button Name="FilterButton" Grid.Row="1" Grid.Column="2" Padding="5" Command="{Binding FilterCommand}" Content="Filter"/>
-
     </Grid>
 </UserControl>

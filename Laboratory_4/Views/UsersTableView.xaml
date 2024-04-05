@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:KMA.ProgrammingInCSharp.Lab4.Tools.Controls"
              mc:Ignorable="d"
-             Height="450" Width="500">
+             Height="450" Width="650">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,13 +19,21 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <controls:FilterControl Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Margin="40 10"
+        <controls:SortControl Grid.Row="0" Grid.Column="0" Margin="40 10"
+                              SelectedValue="{Binding SortingBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <controls:FilterControl Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="0" Margin="40 10"
                             SelectedFilterProperty="{Binding SelectedFilterProperty, Mode=TwoWay}"
                             FilterValue="{Binding FilterValue, Mode=TwoWay}"
                             FilterCommand="{Binding FilterCommand}" >
         </controls:FilterControl>
-
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Persons}" ColumnWidth="*" AutoGenerateColumns="False" SelectedValue="{Binding SelectedPerson}" ScrollViewer.CanContentScroll="True">
+        
+        <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" 
+                  ItemsSource="{Binding Persons}" 
+                  ColumnWidth="*" AutoGenerateColumns="False" 
+                  SelectedValue="{Binding SelectedPerson}" 
+                  ScrollViewer.CanContentScroll="True"
+                  >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name, Mode=OneWay}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Surname" Binding="{Binding Surname, Mode=OneWay}"></DataGridTextColumn>
